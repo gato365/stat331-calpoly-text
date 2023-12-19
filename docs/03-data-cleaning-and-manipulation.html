@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.132">
+<meta name="generator" content="quarto-1.3.353">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Stat 331/531 Statistical Computing with R - 3&nbsp; Data Cleaning and Manipulation</title>
 <style>
@@ -14,9 +14,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -43,48 +44,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -98,8 +70,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -139,150 +110,170 @@ div.csl-indent {
     "search-submit-button-title": "Submit"
   }
 }</script><script src="site_libs/kePrint-0.0.1/kePrint.js"></script><link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="style.css">
+<link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet">
+<script src="site_libs/bsTable-3.3.7/bootstrapTable.js"></script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="style.css">
 </head>
 <body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">
-<span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Cleaning and Manipulation</span>
-</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-data-cleaning-and-manipulation.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Cleaning and Manipulation</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Stat 331/531 Statistical Computing with R</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/earobinson95/stat331-calpoly-text" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+    <a href="https://github.com/earobinson95/stat331-calpoly-text" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
 <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=%7Curl%7C">
-            <i class="bi bi-bi-twitter pe-1"></i>
-          Twitter
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=%7Curl%7C">
-            <i class="bi bi-bi-facebook pe-1"></i>
-          Facebook
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=%7Curl%7C">
-            <i class="bi bi-bi-linkedin pe-1"></i>
-          LinkedIn
-          </a>
-        </li>
-    </ul>
-<a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=%7Curl%7C">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=%7Curl%7C">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=%7Curl%7C">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+</div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-prereading.html" class="sidebar-item-text sidebar-link">Pre-reading</a>
+  <a href="./00-prereading.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pre-reading</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-tidy-data-and-basics-of-graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tidy Data &amp; Basics of Graphics</span></a>
+  <a href="./02-tidy-data-and-basics-of-graphics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tidy Data &amp; Basics of Graphics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-data-cleaning-and-manipulation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Cleaning and Manipulation</span></a>
+  <a href="./03-data-cleaning-and-manipulation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Cleaning and Manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-data-joins-and-transformations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Joins and Transformations</span></a>
+  <a href="./04-data-joins-and-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Joins and Transformations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-special-data-types.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Special Data Types</span></a>
+  <a href="./05-special-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Special Data Types</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-version-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Version Control</span></a>
+  <a href="./06-version-control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Version Control</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Writing Functions</span></a>
+  <a href="./07-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Writing Functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-functional-programming.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functional Programming</span></a>
+  <a href="./08-functional-programming.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functional Programming</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-statistical-modeling-and-simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regression &amp; Simulating Distributions</span></a>
+  <a href="./09-statistical-modeling-and-simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regression &amp; Simulating Distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-predictive-checks.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Checks</span></a>
+  <a href="./10-predictive-checks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Checks</span></span></a>
   </div>
 </li>
     </ul>
 </div>
-</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
 <li><a href="#ch3-objectives" id="toc-ch3-objectives" class="nav-link active" data-scroll-target="#ch3-objectives">Objectives</a></li>
   <li><a href="#ch3-checkins" id="toc-ch3-checkins" class="nav-link" data-scroll-target="#ch3-checkins">Check-ins</a></li>
   <li>
-<a href="#tibbles" id="toc-tibbles" class="nav-link" data-scroll-target="#tibbles"><span class="toc-section-number">3.1</span>  Tibbles</a>
+<a href="#tibbles" id="toc-tibbles" class="nav-link" data-scroll-target="#tibbles"><span class="header-section-number">3.1</span> Tibbles</a>
   <ul class="collapse">
 <li><a href="#learn-more-about-tibbles" id="toc-learn-more-about-tibbles" class="nav-link" data-scroll-target="#learn-more-about-tibbles">Learn more about tibbles</a></li>
   </ul>
 </li>
   <li>
-<a href="#introduction-to-dplyr" id="toc-introduction-to-dplyr" class="nav-link" data-scroll-target="#introduction-to-dplyr"><span class="toc-section-number">3.2</span>  Introduction to <code>dplyr</code></a>
+<a href="#introduction-to-dplyr" id="toc-introduction-to-dplyr" class="nav-link" data-scroll-target="#introduction-to-dplyr"><span class="header-section-number">3.2</span> Introduction to <code>dplyr</code></a>
   <ul class="collapse">
 <li><a href="#main-dplyr-verbs" id="toc-main-dplyr-verbs" class="nav-link" data-scroll-target="#main-dplyr-verbs">Main <code>dplyr</code> verbs</a></li>
   </ul>
 </li>
   <li><a href="#motivation-example-dataset" id="toc-motivation-example-dataset" class="nav-link" data-scroll-target="#motivation-example-dataset">Motivation &amp; Example Dataset</a></li>
   <li>
-<a href="#filter-pick-cases-rows-based-on-their-values" id="toc-filter-pick-cases-rows-based-on-their-values" class="nav-link" data-scroll-target="#filter-pick-cases-rows-based-on-their-values"><span class="toc-section-number">3.3</span>  <code>filter()</code>: Pick cases (rows) based on their values</a>
+<a href="#filter-pick-cases-rows-based-on-their-values" id="toc-filter-pick-cases-rows-based-on-their-values" class="nav-link" data-scroll-target="#filter-pick-cases-rows-based-on-their-values"><span class="header-section-number">3.3</span> <code>filter()</code>: Pick cases (rows) based on their values</a>
   <ul class="collapse">
-<li><a href="#common-row-selection-tasks" id="toc-common-row-selection-tasks" class="nav-link" data-scroll-target="#common-row-selection-tasks"><span class="toc-section-number">3.3.1</span>  Common Row Selection Tasks</a></li>
+<li><a href="#common-row-selection-tasks" id="toc-common-row-selection-tasks" class="nav-link" data-scroll-target="#common-row-selection-tasks"><span class="header-section-number">3.3.1</span> Common Row Selection Tasks</a></li>
   </ul>
 </li>
-  <li><a href="#select-pick-columns" id="toc-select-pick-columns" class="nav-link" data-scroll-target="#select-pick-columns"><span class="toc-section-number">3.4</span>  <code>select()</code>: Pick columns</a></li>
-  <li><a href="#mutate-add-and-transform-variables" id="toc-mutate-add-and-transform-variables" class="nav-link" data-scroll-target="#mutate-add-and-transform-variables"><span class="toc-section-number">3.5</span>  <code>mutate()</code>: Add and transform variables</a></li>
-  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="toc-section-number">3.6</span>  <code>summarize()</code></a></li>
-  <li><a href="#group_by-group-by-power" id="toc-group_by-group-by-power" class="nav-link" data-scroll-target="#group_by-group-by-power"><span class="toc-section-number">3.7</span>  <code>group_by()</code> Group By + (?) = Power!</a></li>
-  <li><a href="#pipe" id="toc-pipe" class="nav-link" data-scroll-target="#pipe"><span class="toc-section-number">3.8</span>  Pipe Operator</a></li>
+  <li><a href="#select-pick-columns" id="toc-select-pick-columns" class="nav-link" data-scroll-target="#select-pick-columns"><span class="header-section-number">3.4</span> <code>select()</code>: Pick columns</a></li>
+  <li><a href="#mutate-add-and-transform-variables" id="toc-mutate-add-and-transform-variables" class="nav-link" data-scroll-target="#mutate-add-and-transform-variables"><span class="header-section-number">3.5</span> <code>mutate()</code>: Add and transform variables</a></li>
+  <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="header-section-number">3.6</span> <code>summarize()</code></a></li>
+  <li><a href="#group_by-group-by-power" id="toc-group_by-group-by-power" class="nav-link" data-scroll-target="#group_by-group-by-power"><span class="header-section-number">3.7</span> <code>group_by()</code> Group By + (?) = Power!</a></li>
+  <li><a href="#pipe" id="toc-pipe" class="nav-link" data-scroll-target="#pipe"><span class="header-section-number">3.8</span> Pipe Operator</a></li>
   <li><a href="#checkin3-1" id="toc-checkin3-1" class="nav-link" data-scroll-target="#checkin3-1">Check-in 3.1: Data Wrangling</a></li>
   <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional Resources</a></li>
   <li><a href="#pa-3-identify-the-mystery-college" id="toc-pa-3-identify-the-mystery-college" class="nav-link" data-scroll-target="#pa-3-identify-the-mystery-college">PA 3: Identify the Mystery College</a></li>
@@ -291,7 +282,7 @@ div.csl-indent {
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title d-none d-lg-block">
+<h1 class="title">
 <span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Cleaning and Manipulation</span>
 </h1>
 </div>
@@ -301,14 +292,12 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
 
-</header><div class="cell">
-
-</div>
-<p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z"></path></svg> Reading: 18 minute(s) at 200 WPM.</p>
+</header><p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z"></path></svg> Reading: 18 minute(s) at 200 WPM.</p>
 <p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"></path></svg> Videos: 60 minutes</p>
 <section id="ch3-objectives" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="ch3-objectives">Objectives</h2>
 <ul>
@@ -350,8 +339,7 @@ div.csl-indent {
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="https://raw.githubusercontent.com/allisonhorst/stats-illustrations/main/rstats-artwork/data_cowboy.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Data wrangling (by Allison Horst)</figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">Data wrangling (by Allison Horst)</figcaption></figure>
 </div>
 </div></div><p>We will be using the <code>tidyverse</code> for this. It’s a meta-package (a package that just loads other packages) that collects packages designed with the same philosophy<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and interface (basically, the commands will use predictable argument names and structure). You’ve already been introduced to parts of the tidyverse - specifically, <code>readr</code> and <code>ggplot2</code>.</p>
 <p><code>dplyr</code> (one of the packages in the tidyverse) creates a “grammar of data manipulation” to make it easier to describe different operations. I find the <code>dplyr</code> grammar to be extremely useful when talking about data operations.</p>
@@ -388,152 +376,151 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> blond </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> C-3PO </td>
-   <td style="text-align:right;"> 167 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> gold </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 112.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, blue </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Leia Organa </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Alderaan </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:left;"> brown, grey </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R5-D4 </td>
-   <td style="text-align:right;"> 97 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, red </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Biggs Darklighter </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 24.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Obi-Wan Kenobi </td>
-   <td style="text-align:right;"> 182 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> auburn, white </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue-gray </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Stewjon </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">blond</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C-3PO</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">gold</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, blue</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">33.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leia Organa</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Alderaan</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: left;">brown, grey</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R5-D4</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, red</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Biggs Darklighter</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">24.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Obi-Wan Kenobi</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">auburn, white</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue-gray</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Stewjon</td>
+<td style="text-align: left;">Human</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -564,8 +551,7 @@ div.csl-indent {
 </div>
 </div></div><div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/dplyr_filter.jpg" class="img-fluid figure-img" alt="Cartoon showing three fuzzy monsters either selecting or crossing out rows of a data table. If the type of animal in the table is “otter” and the site is “bay”, a monster is drawing a purple rectangle around the row. If those conditions are not met, another monster is putting a line through the column indicating it will be excluded. Stylized text reads “dplyr::filter() - keep rows that satisfy your conditions.”"></p>
-<p></p><figcaption class="figure-caption">dplyr filter() by Allison Horst</figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">dplyr filter() by Allison Horst</figcaption></figure>
 </div>
 <p>Once the data is set up, filtering the data (selecting certain <strong>rows</strong>) is actually very simple. Of course, we’ve talked about how to use logical indexing before in <a href="00-prereading.html#indexing-matrices">Indexing Matrices</a>, but here we’ll focus on using specific functions to perform the same operation.</p>
 <p>The dplyr verb for selecting rows is <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>. <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> takes a set of one or more logical conditions, using bare column names and logical operators. Each provided condition is combined using AND.</p>
@@ -578,87 +564,86 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> blond </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Leia Organa </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Alderaan </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:left;"> brown, grey </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">blond</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leia Organa</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Alderaan</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: left;">brown, grey</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -683,87 +668,86 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> blond </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:left;"> brown, grey </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Biggs Darklighter </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 24.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">blond</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: left;">brown, grey</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Biggs Darklighter</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">24.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -810,250 +794,248 @@ div.csl-indent {
 <div class="cell">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">starwars</span>, <span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/row_number.html">row_number</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%%</a></span> <span class="fl">2</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="panel-tabset">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist">
 <li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Even Rows</a></li>
 <li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Original <code>starwars</code></a></li>
 </ul>
 <div class="tab-content">
-<div id="tabset-1-1" class="unnumbered tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> C-3PO </td>
-   <td style="text-align:right;"> 167 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> gold </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 112.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:left;"> brown, grey </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R5-D4 </td>
-   <td style="text-align:right;"> 97 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, red </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Obi-Wan Kenobi </td>
-   <td style="text-align:right;"> 182 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> auburn, white </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue-gray </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Stewjon </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">C-3PO</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">gold</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: left;">brown, grey</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R5-D4</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, red</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Obi-Wan Kenobi</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">auburn, white</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue-gray</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Stewjon</td>
+<td style="text-align: left;">Human</td>
+</tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-<div id="tabset-1-2" class="unnumbered tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> blond </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> C-3PO </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 167 </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 75 </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> NA </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> gold </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> yellow </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 112.0 </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> none </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> masculine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, blue </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Darth Vader </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 202 </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 136 </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> none </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> white </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> yellow </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 41.9 </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> male </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> masculine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Leia Organa </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Alderaan </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Owen Lars </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 178 </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 120 </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> brown, grey </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> light </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> blue </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 52.0 </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> male </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> masculine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> R5-D4 </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 97 </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 32 </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> NA </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> white, red </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> red </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> NA </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> none </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> masculine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Tatooine </td>
-   <td style="text-align:left;font-weight: bold;color: black !important;background-color: yellow !important;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Biggs Darklighter </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 24.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Obi-Wan Kenobi </td>
-   <td style="text-align:right;"> 182 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> auburn, white </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue-gray </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Stewjon </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">blond</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">C-3PO</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">167</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">75</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">NA</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">gold</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">yellow</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">112.0</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">none</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">masculine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Droid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, blue</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">33.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Darth Vader</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">202</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">136</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">none</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">white</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">yellow</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">41.9</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">male</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">masculine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leia Organa</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Alderaan</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Owen Lars</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">178</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">120</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">brown, grey</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">light</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">blue</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">52.0</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">male</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">masculine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">R5-D4</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">97</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">32</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">NA</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">white, red</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">red</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">NA</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">none</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">masculine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Tatooine</td>
+<td style="text-align: left; font-weight: bold; color: black !important; background-color: yellow !important;">Droid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Biggs Darklighter</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">24.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Obi-Wan Kenobi</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">auburn, white</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue-gray</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Stewjon</td>
+<td style="text-align: left;">Human</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1073,152 +1055,151 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Yarael Poof </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 264 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Quermia </td>
-   <td style="text-align:left;"> Quermian </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Tarfful </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 234 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Kashyyyk </td>
-   <td style="text-align:left;"> Wookiee </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Lama Su </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 229 </td>
-   <td style="text-align:right;"> 88 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> grey </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Kamino </td>
-   <td style="text-align:left;"> Kaminoan </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Chewbacca </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 228 </td>
-   <td style="text-align:right;"> 112 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> unknown </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 200.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Kashyyyk </td>
-   <td style="text-align:left;"> Wookiee </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Roos Tarpals </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 224 </td>
-   <td style="text-align:right;"> 82 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> grey </td>
-   <td style="text-align:left;"> orange </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Gungan </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Grievous </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 216 </td>
-   <td style="text-align:right;"> 159 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> brown, white </td>
-   <td style="text-align:left;"> green, yellow </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Kalee </td>
-   <td style="text-align:left;"> Kaleesh </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Taun We </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 213 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> grey </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Kamino </td>
-   <td style="text-align:left;"> Kaminoan </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Rugor Nass </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 206 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> green </td>
-   <td style="text-align:left;"> orange </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Gungan </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Tion Medon </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 206 </td>
-   <td style="text-align:right;"> 80 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> grey </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Utapau </td>
-   <td style="text-align:left;"> Pau'an </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;font-weight: bold;color: black !important;background-color: yellow !important;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Yarael Poof</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">264</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Quermia</td>
+<td style="text-align: left;">Quermian</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tarfful</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">234</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Kashyyyk</td>
+<td style="text-align: left;">Wookiee</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lama Su</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">229</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">grey</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Kamino</td>
+<td style="text-align: left;">Kaminoan</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chewbacca</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">228</td>
+<td style="text-align: right;">112</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">unknown</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">200.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Kashyyyk</td>
+<td style="text-align: left;">Wookiee</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Roos Tarpals</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">224</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">grey</td>
+<td style="text-align: left;">orange</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Gungan</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grievous</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">216</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">brown, white</td>
+<td style="text-align: left;">green, yellow</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Kalee</td>
+<td style="text-align: left;">Kaleesh</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Taun We</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">213</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">grey</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Kamino</td>
+<td style="text-align: left;">Kaminoan</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rugor Nass</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">206</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">green</td>
+<td style="text-align: left;">orange</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Gungan</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tion Medon</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">206</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">grey</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Utapau</td>
+<td style="text-align: left;">Pau'an</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right; font-weight: bold; color: black !important; background-color: yellow !important;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1233,87 +1214,86 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Yarael Poof </td>
-   <td style="text-align:right;"> 264 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Quermia </td>
-   <td style="text-align:left;"> Quermian </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Tarfful </td>
-   <td style="text-align:right;"> 234 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Kashyyyk </td>
-   <td style="text-align:left;"> Wookiee </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Lama Su </td>
-   <td style="text-align:right;"> 229 </td>
-   <td style="text-align:right;"> 88 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> grey </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Kamino </td>
-   <td style="text-align:left;"> Kaminoan </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Chewbacca </td>
-   <td style="text-align:right;"> 228 </td>
-   <td style="text-align:right;"> 112 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> unknown </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 200 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Kashyyyk </td>
-   <td style="text-align:left;"> Wookiee </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Roos Tarpals </td>
-   <td style="text-align:right;"> 224 </td>
-   <td style="text-align:right;"> 82 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> grey </td>
-   <td style="text-align:left;"> orange </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Gungan </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Yarael Poof</td>
+<td style="text-align: right;">264</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Quermia</td>
+<td style="text-align: left;">Quermian</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tarfful</td>
+<td style="text-align: right;">234</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Kashyyyk</td>
+<td style="text-align: left;">Wookiee</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lama Su</td>
+<td style="text-align: right;">229</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">grey</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Kamino</td>
+<td style="text-align: left;">Kaminoan</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chewbacca</td>
+<td style="text-align: right;">228</td>
+<td style="text-align: right;">112</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">unknown</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">200</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Kashyyyk</td>
+<td style="text-align: left;">Wookiee</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Roos Tarpals</td>
+<td style="text-align: right;">224</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">grey</td>
+<td style="text-align: left;">orange</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Gungan</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1327,100 +1307,99 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Yoda </td>
-   <td style="text-align:right;"> 66 </td>
-   <td style="text-align:right;"> 17 </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> green </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 896 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> Yoda's species </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Ratts Tyerell </td>
-   <td style="text-align:right;"> 79 </td>
-   <td style="text-align:right;"> 15 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> grey, blue </td>
-   <td style="text-align:left;"> unknown </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Aleen Minor </td>
-   <td style="text-align:left;"> Aleena </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Wicket Systri Warrick </td>
-   <td style="text-align:right;"> 88 </td>
-   <td style="text-align:right;"> 20 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Endor </td>
-   <td style="text-align:left;"> Ewok </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Dud Bolt </td>
-   <td style="text-align:right;"> 94 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> blue, grey </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Vulpter </td>
-   <td style="text-align:left;"> Vulptereen </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, blue </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> 33 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R4-P17 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> silver, red </td>
-   <td style="text-align:left;"> red, blue </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Yoda</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">green</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">896</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Yoda's species</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ratts Tyerell</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">grey, blue</td>
+<td style="text-align: left;">unknown</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Aleen Minor</td>
+<td style="text-align: left;">Aleena</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Wicket Systri Warrick</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Endor</td>
+<td style="text-align: left;">Ewok</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dud Bolt</td>
+<td style="text-align: right;">94</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">blue, grey</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Vulpter</td>
+<td style="text-align: left;">Vulptereen</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, blue</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R4-P17</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">silver, red</td>
+<td style="text-align: left;">red, blue</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Droid</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1435,87 +1414,86 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Yoda </td>
-   <td style="text-align:right;"> 66 </td>
-   <td style="text-align:right;"> 17 </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> green </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 896 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> Yoda's species </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Ratts Tyerell </td>
-   <td style="text-align:right;"> 79 </td>
-   <td style="text-align:right;"> 15 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> grey, blue </td>
-   <td style="text-align:left;"> unknown </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Aleen Minor </td>
-   <td style="text-align:left;"> Aleena </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Wicket Systri Warrick </td>
-   <td style="text-align:right;"> 88 </td>
-   <td style="text-align:right;"> 20 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Endor </td>
-   <td style="text-align:left;"> Ewok </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Dud Bolt </td>
-   <td style="text-align:right;"> 94 </td>
-   <td style="text-align:right;"> 45 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> blue, grey </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Vulpter </td>
-   <td style="text-align:left;"> Vulptereen </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, blue </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> 33 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Yoda</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">green</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">896</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">Yoda's species</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ratts Tyerell</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">grey, blue</td>
+<td style="text-align: left;">unknown</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Aleen Minor</td>
+<td style="text-align: left;">Aleena</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Wicket Systri Warrick</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Endor</td>
+<td style="text-align: left;">Ewok</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dud Bolt</td>
+<td style="text-align: right;">94</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">blue, grey</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Vulpter</td>
+<td style="text-align: left;">Vulptereen</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, blue</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Droid</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1529,22 +1507,33 @@ div.csl-indent {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
-<tbody><tr></tr></tbody>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
+<tbody><tr class="odd">
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr></tbody>
 </table>
 </div>
 </div>
@@ -1621,97 +1610,96 @@ Most <code>dplyr</code> commands work with “bare” variable names - you don�
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> species </th>
-   <th style="text-align:left;"> homeworld </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> C-3PO </td>
-   <td style="text-align:right;"> 167 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:right;"> 112.0 </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:left;"> Naboo </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Leia Organa </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Alderaan </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R5-D4 </td>
-   <td style="text-align:right;"> 97 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Biggs Darklighter </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:right;"> 24.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Obi-Wan Kenobi </td>
-   <td style="text-align:right;"> 182 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Stewjon </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C-3PO</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">33.0</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: left;">Naboo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leia Organa</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Alderaan</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R5-D4</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Biggs Darklighter</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">24.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Obi-Wan Kenobi</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Stewjon</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1722,97 +1710,96 @@ Most <code>dplyr</code> commands work with “bare” variable names - you don�
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> species </th>
-   <th style="text-align:left;"> homeworld </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> C-3PO </td>
-   <td style="text-align:right;"> 167 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:right;"> 112.0 </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:left;"> Naboo </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Leia Organa </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Alderaan </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R5-D4 </td>
-   <td style="text-align:right;"> 97 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Biggs Darklighter </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:right;"> 24.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Tatooine </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Obi-Wan Kenobi </td>
-   <td style="text-align:right;"> 182 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:left;"> Stewjon </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C-3PO</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">33.0</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: left;">Naboo</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leia Organa</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Alderaan</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R5-D4</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Biggs Darklighter</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">24.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Tatooine</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Obi-Wan Kenobi</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: left;">Stewjon</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1826,152 +1813,151 @@ Most <code>dplyr</code> commands work with “bare” variable names - you don�
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> blond </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> C-3PO </td>
-   <td style="text-align:right;"> 112.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:right;"> 167 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> gold </td>
-   <td style="text-align:left;"> yellow </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, blue </td>
-   <td style="text-align:left;"> red </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Leia Organa </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Alderaan </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:left;"> brown, grey </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R5-D4 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Droid </td>
-   <td style="text-align:right;"> 97 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, red </td>
-   <td style="text-align:left;"> red </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Biggs Darklighter </td>
-   <td style="text-align:right;"> 24.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Obi-Wan Kenobi </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Stewjon </td>
-   <td style="text-align:left;"> Human </td>
-   <td style="text-align:right;"> 182 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> auburn, white </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue-gray </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">blond</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C-3PO</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">gold</td>
+<td style="text-align: left;">yellow</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">33.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, blue</td>
+<td style="text-align: left;">red</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leia Organa</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Alderaan</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: left;">brown, grey</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R5-D4</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Droid</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, red</td>
+<td style="text-align: left;">red</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Biggs Darklighter</td>
+<td style="text-align: right;">24.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Obi-Wan Kenobi</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Stewjon</td>
+<td style="text-align: left;">Human</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">auburn, white</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue-gray</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1984,8 +1970,7 @@ dplyr::relocate
 </summary><p>Another handy <code>dplyr</code> function is <code>relocate</code>; while you definitely can do this operation in many, many different ways, it may be simpler to do it using relocate. But, I’m covering relocate here mostly because it also comes with this amazing cartoon illustration.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/dplyr_relocate.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">relocate lets you rearrange columns (by Allison Horst)</figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">relocate lets you rearrange columns (by Allison Horst)</figcaption></figure>
 </div>
 <div class="cell">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># move numeric variables to the front</span></span>
@@ -2019,8 +2004,7 @@ dplyr::relocate
 </div>
 </div></div><div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="https://github.com/allisonhorst/stats-illustrations/raw/main/rstats-artwork/dplyr_mutate.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Mutate (by Allison Horst)</figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">Mutate (by Allison Horst)</figcaption></figure>
 </div>
 <div class="ex">
 <p>Let’s create a new variable, <code>BMI</code> calculated from existing columns – <code>mass</code>/<code>height</code><span class="math inline">\(^2\)</span></p>
@@ -2029,163 +2013,162 @@ dplyr::relocate
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:right;"> BMI </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">BMI</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:right;"> 0.0026028 </td>
-   <td style="text-align:left;"> blond </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> C-3PO </td>
-   <td style="text-align:right;"> 167 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:right;"> 0.0026892 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> gold </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 112.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> 0.0034722 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, blue </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:right;"> 0.0033330 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Leia Organa </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:right;"> 0.0021778 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Alderaan </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:right;"> 0.0037874 </td>
-   <td style="text-align:left;"> brown, grey </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:right;"> 0.0027548 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R5-D4 </td>
-   <td style="text-align:right;"> 97 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:right;"> 0.0034010 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, red </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Droid </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Biggs Darklighter </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:right;"> 0.0025083 </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 24.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Obi-Wan Kenobi </td>
-   <td style="text-align:right;"> 182 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:right;"> 0.0023246 </td>
-   <td style="text-align:left;"> auburn, white </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue-gray </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Stewjon </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">0.0026028</td>
+<td style="text-align: left;">blond</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C-3PO</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0026892</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">gold</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">0.0034722</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, blue</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">33.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">0.0033330</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leia Organa</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">0.0021778</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Alderaan</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">0.0037874</td>
+<td style="text-align: left;">brown, grey</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">0.0027548</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R5-D4</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">0.0034010</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, red</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Droid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Biggs Darklighter</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">0.0025083</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">24.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Obi-Wan Kenobi</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">0.0023246</td>
+<td style="text-align: left;">auburn, white</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue-gray</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Stewjon</td>
+<td style="text-align: left;">Human</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2202,152 +2185,151 @@ dplyr::relocate
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<table>
-<thead><tr>
-<th style="text-align:left;"> name </th>
-   <th style="text-align:right;"> height </th>
-   <th style="text-align:right;"> mass </th>
-   <th style="text-align:left;"> hair_color </th>
-   <th style="text-align:left;"> skin_color </th>
-   <th style="text-align:left;"> eye_color </th>
-   <th style="text-align:right;"> birth_year </th>
-   <th style="text-align:left;"> sex </th>
-   <th style="text-align:left;"> gender </th>
-   <th style="text-align:left;"> homeworld </th>
-   <th style="text-align:left;"> species </th>
-  </tr></thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">name</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">height</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mass</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">hair_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">skin_color</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eye_color</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">birth_year</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">gender</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">homeworld</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">species</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Luke Skywalker </td>
-   <td style="text-align:right;"> 172 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> blond </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> C-3PO </td>
-   <td style="text-align:right;"> 167 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> gold </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 112.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Not Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R2-D2 </td>
-   <td style="text-align:right;"> 96 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, blue </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> 33.0 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Naboo </td>
-   <td style="text-align:left;"> Not Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Darth Vader </td>
-   <td style="text-align:right;"> 202 </td>
-   <td style="text-align:right;"> 136 </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> white </td>
-   <td style="text-align:left;"> yellow </td>
-   <td style="text-align:right;"> 41.9 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Leia Organa </td>
-   <td style="text-align:right;"> 150 </td>
-   <td style="text-align:right;"> 49 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 19.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Alderaan </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Owen Lars </td>
-   <td style="text-align:right;"> 178 </td>
-   <td style="text-align:right;"> 120 </td>
-   <td style="text-align:left;"> brown, grey </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 52.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Beru Whitesun lars </td>
-   <td style="text-align:right;"> 165 </td>
-   <td style="text-align:right;"> 75 </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> blue </td>
-   <td style="text-align:right;"> 47.0 </td>
-   <td style="text-align:left;"> female </td>
-   <td style="text-align:left;"> feminine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> R5-D4 </td>
-   <td style="text-align:right;"> 97 </td>
-   <td style="text-align:right;"> 32 </td>
-   <td style="text-align:left;"> NA </td>
-   <td style="text-align:left;"> white, red </td>
-   <td style="text-align:left;"> red </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:left;"> none </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Not Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Biggs Darklighter </td>
-   <td style="text-align:right;"> 183 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:left;"> black </td>
-   <td style="text-align:left;"> light </td>
-   <td style="text-align:left;"> brown </td>
-   <td style="text-align:right;"> 24.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Tatooine </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Obi-Wan Kenobi </td>
-   <td style="text-align:right;"> 182 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:left;"> auburn, white </td>
-   <td style="text-align:left;"> fair </td>
-   <td style="text-align:left;"> blue-gray </td>
-   <td style="text-align:right;"> 57.0 </td>
-   <td style="text-align:left;"> male </td>
-   <td style="text-align:left;"> masculine </td>
-   <td style="text-align:left;"> Stewjon </td>
-   <td style="text-align:left;"> Human </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Luke Skywalker</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">blond</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C-3PO</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">gold</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Not Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2-D2</td>
+<td style="text-align: right;">96</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, blue</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">33.0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Naboo</td>
+<td style="text-align: left;">Not Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Darth Vader</td>
+<td style="text-align: right;">202</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">white</td>
+<td style="text-align: left;">yellow</td>
+<td style="text-align: right;">41.9</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Leia Organa</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">19.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Alderaan</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Owen Lars</td>
+<td style="text-align: right;">178</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: left;">brown, grey</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">52.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Beru Whitesun lars</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">blue</td>
+<td style="text-align: right;">47.0</td>
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">feminine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R5-D4</td>
+<td style="text-align: right;">97</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">white, red</td>
+<td style="text-align: left;">red</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Not Human</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Biggs Darklighter</td>
+<td style="text-align: right;">183</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: left;">light</td>
+<td style="text-align: left;">brown</td>
+<td style="text-align: right;">24.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Tatooine</td>
+<td style="text-align: left;">Human</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Obi-Wan Kenobi</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: left;">auburn, white</td>
+<td style="text-align: left;">fair</td>
+<td style="text-align: left;">blue-gray</td>
+<td style="text-align: right;">57.0</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">masculine</td>
+<td style="text-align: left;">Stewjon</td>
+<td style="text-align: left;">Human</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2360,20 +2342,17 @@ Mutate and new challenges
 <p>Google and StackOverflow are very common and important programming skills!</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="images/data-transformations/twitter-google-stackoverflow.png" class="img-fluid figure-img" alt="A screenshot of a tweet from @madsbrodt. Tweet text: Googling and StackOverflow'ing is a natural part of programming. Don't think of it as cheating. Knowing what to search for, and which results will fit your given situation is an important skill (flame emoji)."></p>
-<p></p><figcaption class="figure-caption"><a href="https://twitter.com/madsbrodt/status/1339127984670773251">Source</a></figcaption><p></p>
-</figure>
+<figcaption class="figure-caption"><a href="https://twitter.com/madsbrodt/status/1339127984670773251">Source</a></figcaption></figure>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="images/data-transformations/twitter-happy-debugging.png" class="img-fluid figure-img" alt="A screenshot of a tweet from @cszhu. Tweet text: if you're not happy single, you won't be happy in a relationship. true happiness comes from closing 100 chrome tabs after solving an obscure programming bug, not from someone else."></p>
-<p></p><figcaption class="figure-caption"><a href="https://twitter.com/cszhu/status/1230954186520461312">Source</a></figcaption><p></p>
-</figure>
+<figcaption class="figure-caption"><a href="https://twitter.com/cszhu/status/1230954186520461312">Source</a></figcaption></figure>
 </div>
 <p>In this textbook, the examples will expose you to solutions to common problems (or require that you do some basic reading yourself); unfortunately, there are too many common problems for us to work through line-by-line.</p>
 <p>Part of the goal of this textbook is to help you <strong>learn how to read through a package description and evaluate whether the package will do what you want</strong>. We’re going to try to build some of those skills starting now. It would be relatively easy to teach you how to do a set list of tasks, but you’ll be better statisticians and programmers if you learn the skills to solve niche problems on your own.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="images/data-transformations/twitter-teach-program.png" class="img-fluid figure-img" alt="A screenshot of a tweet from @abt_programming. Tweet text: Give a man a program, frustrate him for a day.Teach a man to program, frustrate him for a lifetime - Muhammad Waseem."></p>
-<p></p><figcaption class="figure-caption">Apologies for the noninclusive language, but the sentiment is real. <a href="https://twitter.com/abt_programming/status/459414524303785984">Source</a></figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">Apologies for the noninclusive language, but the sentiment is real. <a href="https://twitter.com/abt_programming/status/459414524303785984">Source</a></figcaption></figure>
 </div>
 </details></section><section id="summarize" class="level2 page-columns page-full" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="summarize">
 <span class="header-section-number">3.6</span> <code>summarize()</code>
@@ -2445,8 +2424,7 @@ Mutate and new challenges
 <div class="no-row-height column-margin column-container"><div class="">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="https://raw.githubusercontent.com/allisonhorst/stats-illustrations/main/rstats-blanks/ungroup_blank.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">The ungroup() command is just as important as the group_by() command! (by Allison Horst)</figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">The ungroup() command is just as important as the group_by() command! (by Allison Horst)</figcaption></figure>
 </div>
 </div></div><p>When you <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> a variable, your result carries this grouping with it. <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> will remove one layer of grouping (by default), but if you ever want to return to a completely ungrouped data set, you should use the <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup()</a></code> command.</p>
 </section><section id="pipe" class="level2 page-columns page-full" data-number="3.8"><h2 data-number="3.8" class="anchored" data-anchor-id="pipe">
@@ -2615,14 +2593,14 @@ Mutate and new challenges
 </section><section id="references" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-deanMapReduceSimplifiedData2008" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-deanMapReduceSimplifiedData2008" class="csl-entry" role="listitem">
 Dean, Jeffrey, and Sanjay Ghemawat. 2008. <span>“<span>MapReduce</span>: Simplified Data Processing on Large Clusters.”</span> <em>Communications of the ACM</em> 51 (1): 107–13. <a href="https://doi.org/10.1145/1327452.1327492">https://doi.org/10.1145/1327452.1327492</a>.
 </div>
-<div id="ref-GroupSplitapplycombine2022" class="csl-entry" role="doc-biblioentry">
+<div id="ref-GroupSplitapplycombine2022" class="csl-entry" role="listitem">
 <span>“Group by: Split-Apply-Combine.”</span> 2022. In <em>Pandas 1.4.3 Documentation</em>. Python. <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html">https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html</a>.
 </div>
-<div id="ref-wickhamSplitapplycombineStrategyData2011" class="csl-entry" role="doc-biblioentry">
+<div id="ref-wickhamSplitapplycombineStrategyData2011" class="csl-entry" role="listitem">
 Wickham, Hadley. 2011. <span>“The Split-Apply-Combine Strategy for Data Analysis.”</span> <em>Journal of Statistical Software</em> 40: 1–29.
 </div>
 </div>
@@ -2763,7 +2741,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   // Switch to dark mode if need be
   if (hasAlternateSentinel()) {
     toggleColorMode(true);
-  } 
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -2771,9 +2751,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -2785,7 +2779,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -2821,24 +2832,128 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.132">
+<meta name="generator" content="quarto-1.3.353">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Stat 331/531 Statistical Computing with R - 8&nbsp; Functional Programming</title>
 <style>
@@ -14,9 +14,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -43,48 +44,19 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+/* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging div.csl-entry {
+.hanging-indent div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -98,8 +70,7 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}
-</style>
+}</style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -139,153 +110,173 @@ div.csl-indent {
     "search-submit-button-title": "Submit"
   }
 }</script><script src="site_libs/kePrint-0.0.1/kePrint.js"></script><link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="style.css">
+<link href="site_libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet">
+<script src="site_libs/bsTable-3.3.7/bootstrapTable.js"></script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><link rel="stylesheet" href="style.css">
 </head>
 <body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }"><div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">
-<span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functional Programming</span>
-</h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-functional-programming.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functional Programming</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Stat 331/531 Statistical Computing with R</a> 
         <div class="sidebar-tools-main tools-wide">
-    <a href="https://github.com/earobinson95/stat331-calpoly-text" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
-    <a href="" title="Share" id="sidebar-tool-dropdown-0" class="sidebar-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share"></i></a>
-    <ul class="dropdown-menu" aria-labelledby="sidebar-tool-dropdown-0">
+    <a href="https://github.com/earobinson95/stat331-calpoly-text" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <div class="dropdown">
+      <a href="" title="Share" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Share"><i class="bi bi-share"></i></a>
+      <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
 <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=%7Curl%7C">
-            <i class="bi bi-bi-twitter pe-1"></i>
-          Twitter
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=%7Curl%7C">
-            <i class="bi bi-bi-facebook pe-1"></i>
-          Facebook
-          </a>
-        </li>
-        <li>
-          <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=%7Curl%7C">
-            <i class="bi bi-bi-linkedin pe-1"></i>
-          LinkedIn
-          </a>
-        </li>
-    </ul>
-<a href="" class="quarto-color-scheme-toggle sidebar-tool" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://twitter.com/intent/tweet?url=%7Curl%7C">
+              <i class="bi bi-bi-twitter pe-1"></i>
+            Twitter
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.facebook.com/sharer/sharer.php?u=%7Curl%7C">
+              <i class="bi bi-bi-facebook pe-1"></i>
+            Facebook
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item sidebar-tools-main-item" href="https://www.linkedin.com/sharing/share-offsite/?url=%7Curl%7C">
+              <i class="bi bi-bi-linkedin pe-1"></i>
+            LinkedIn
+            </a>
+          </li>
+      </ul>
+</div>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-prereading.html" class="sidebar-item-text sidebar-link">Pre-reading</a>
+  <a href="./00-prereading.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pre-reading</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="./01-introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-tidy-data-and-basics-of-graphics.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tidy Data &amp; Basics of Graphics</span></a>
+  <a href="./02-tidy-data-and-basics-of-graphics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tidy Data &amp; Basics of Graphics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-data-cleaning-and-manipulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Cleaning and Manipulation</span></a>
+  <a href="./03-data-cleaning-and-manipulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data Cleaning and Manipulation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-data-joins-and-transformations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Joins and Transformations</span></a>
+  <a href="./04-data-joins-and-transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Joins and Transformations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-special-data-types.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Special Data Types</span></a>
+  <a href="./05-special-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Special Data Types</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-version-control.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Version Control</span></a>
+  <a href="./06-version-control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Version Control</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Writing Functions</span></a>
+  <a href="./07-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Writing Functions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-functional-programming.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functional Programming</span></a>
+  <a href="./08-functional-programming.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functional Programming</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-statistical-modeling-and-simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regression &amp; Simulating Distributions</span></a>
+  <a href="./09-statistical-modeling-and-simulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Regression &amp; Simulating Distributions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-predictive-checks.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Checks</span></a>
+  <a href="./10-predictive-checks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Predictive Checks</span></span></a>
   </div>
 </li>
     </ul>
 </div>
-</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
 <li><a href="#ch8-objectives" id="toc-ch8-objectives" class="nav-link active" data-scroll-target="#ch8-objectives">Objectives</a></li>
   <li><a href="#ch8-checkins" id="toc-ch8-checkins" class="nav-link" data-scroll-target="#ch8-checkins">Check-ins</a></li>
   <li>
-<a href="#introduction-to-iteration" id="toc-introduction-to-iteration" class="nav-link" data-scroll-target="#introduction-to-iteration"><span class="toc-section-number">8.1</span>  Introduction to Iteration</a>
+<a href="#introduction-to-iteration" id="toc-introduction-to-iteration" class="nav-link" data-scroll-target="#introduction-to-iteration"><span class="header-section-number">8.1</span> Introduction to Iteration</a>
   <ul class="collapse">
 <li><a href="#read-more" id="toc-read-more" class="nav-link" data-scroll-target="#read-more">Read more</a></li>
   </ul>
 </li>
   <li>
-<a href="#review-of-lists-and-vectors" id="toc-review-of-lists-and-vectors" class="nav-link" data-scroll-target="#review-of-lists-and-vectors"><span class="toc-section-number">8.2</span>  Review of Lists and Vectors</a>
+<a href="#review-of-lists-and-vectors" id="toc-review-of-lists-and-vectors" class="nav-link" data-scroll-target="#review-of-lists-and-vectors"><span class="header-section-number">8.2</span> Review of Lists and Vectors</a>
   <ul class="collapse">
-<li><a href="#indexing" id="toc-indexing" class="nav-link" data-scroll-target="#indexing"><span class="toc-section-number">8.2.1</span>  Indexing</a></li>
+<li><a href="#indexing" id="toc-indexing" class="nav-link" data-scroll-target="#indexing"><span class="header-section-number">8.2.1</span> Indexing</a></li>
   </ul>
 </li>
-  <li><a href="#vectorized-operations" id="toc-vectorized-operations" class="nav-link" data-scroll-target="#vectorized-operations"><span class="toc-section-number">8.3</span>  Vectorized Operations</a></li>
+  <li><a href="#vectorized-operations" id="toc-vectorized-operations" class="nav-link" data-scroll-target="#vectorized-operations"><span class="header-section-number">8.3</span> Vectorized Operations</a></li>
   <li>
-<a href="#functional-programming" id="toc-functional-programming" class="nav-link" data-scroll-target="#functional-programming"><span class="toc-section-number">8.4</span>  Functional Programming</a>
+<a href="#functional-programming" id="toc-functional-programming" class="nav-link" data-scroll-target="#functional-programming"><span class="header-section-number">8.4</span> Functional Programming</a>
   <ul class="collapse">
 <li><a href="#functional-programming-example" id="toc-functional-programming-example" class="nav-link" data-scroll-target="#functional-programming-example">Functional Programming Example</a></li>
   </ul>
 </li>
   <li>
-<a href="#introduction-to-map" id="toc-introduction-to-map" class="nav-link" data-scroll-target="#introduction-to-map"><span class="toc-section-number">8.5</span>  Introduction to <code>map()</code></a>
+<a href="#introduction-to-map" id="toc-introduction-to-map" class="nav-link" data-scroll-target="#introduction-to-map"><span class="header-section-number">8.5</span> Introduction to <code>map()</code></a>
   <ul class="collapse">
-<li><a href="#data-setup" id="toc-data-setup" class="nav-link" data-scroll-target="#data-setup"><span class="toc-section-number">8.5.1</span>  Data Setup</a></li>
-  <li><a href="#exploring-the-data" id="toc-exploring-the-data" class="nav-link" data-scroll-target="#exploring-the-data"><span class="toc-section-number">8.5.2</span>  Exploring the Data</a></li>
-  <li><a href="#map-inside-mutate" id="toc-map-inside-mutate" class="nav-link" data-scroll-target="#map-inside-mutate"><span class="toc-section-number">8.5.3</span>  Map inside Mutate</a></li>
-  <li><a href="#creating-and-using-list-columns" id="toc-creating-and-using-list-columns" class="nav-link" data-scroll-target="#creating-and-using-list-columns"><span class="toc-section-number">8.5.4</span>  Creating (and Using) List-columns</a></li>
-  <li><a href="#ways-to-use-map" id="toc-ways-to-use-map" class="nav-link" data-scroll-target="#ways-to-use-map"><span class="toc-section-number">8.5.5</span>  Ways to use <code>map</code></a></li>
+<li><a href="#data-setup" id="toc-data-setup" class="nav-link" data-scroll-target="#data-setup"><span class="header-section-number">8.5.1</span> Data Setup</a></li>
+  <li><a href="#exploring-the-data" id="toc-exploring-the-data" class="nav-link" data-scroll-target="#exploring-the-data"><span class="header-section-number">8.5.2</span> Exploring the Data</a></li>
+  <li><a href="#map-inside-mutate" id="toc-map-inside-mutate" class="nav-link" data-scroll-target="#map-inside-mutate"><span class="header-section-number">8.5.3</span> Map inside Mutate</a></li>
+  <li><a href="#creating-and-using-list-columns" id="toc-creating-and-using-list-columns" class="nav-link" data-scroll-target="#creating-and-using-list-columns"><span class="header-section-number">8.5.4</span> Creating (and Using) List-columns</a></li>
+  <li><a href="#ways-to-use-map" id="toc-ways-to-use-map" class="nav-link" data-scroll-target="#ways-to-use-map"><span class="header-section-number">8.5.5</span> Ways to use <code>map</code></a></li>
   <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
   <li><a href="#tutorial" id="toc-tutorial" class="nav-link" data-scroll-target="#tutorial">Tutorial</a></li>
   <li><a href="#learn-more-about-purrr" id="toc-learn-more-about-purrr" class="nav-link" data-scroll-target="#learn-more-about-purrr">Learn More About Purrr</a></li>
@@ -298,7 +289,7 @@ div.csl-indent {
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title d-none d-lg-block">
+<h1 class="title">
 <span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Functional Programming</span>
 </h1>
 </div>
@@ -308,14 +299,12 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
 
-</header><div class="cell">
-
-</div>
-<p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z"></path></svg> Reading: 18 minute(s) at 200 WPM</p>
+</header><p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z"></path></svg> Reading: 18 minute(s) at 200 WPM</p>
 <p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"></path></svg> Videos: 29 minute(s)</p>
 <section id="ch8-objectives" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="ch8-objectives">Objectives</h2>
 <ul>
@@ -413,29 +402,25 @@ $third_thing
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="images/08-functional-programming/02_pepper.jpg" class="img-fluid figure-img" alt="A pepper shaker containing several individual paper packets of pepper"></p>
-<p></p><figcaption class="figure-caption">An unusual pepper shaker which we’ll call <code>pepper</code></figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">An unusual pepper shaker which we’ll call <code>pepper</code></figcaption></figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="images/08-functional-programming/02_pepper-1.jpg" class="img-fluid figure-img" alt="A pepper shaker containing a single individual paper packet of pepper."></p>
-<p></p><figcaption class="figure-caption">When a list is indexed with single brackets, <code>pepper[1]</code>, the return value is always a list containing the selected element(s).</figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">When a list is indexed with single brackets, <code>pepper[1]</code>, the return value is always a list containing the selected element(s).</figcaption></figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="images/08-functional-programming/02_pepper-2.jpg" class="img-fluid figure-img" alt="A single individual paper packet of pepper, no longer contained within a pepper shaker."></p>
-<p></p><figcaption class="figure-caption">When a list is indexed with double brackets, <code>pepper[[1]]</code>, the return value is the selected element.</figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">When a list is indexed with double brackets, <code>pepper[[1]]</code>, the return value is the selected element.</figcaption></figure>
 </div>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="images/08-functional-programming/02_pepper-3.jpg" class="img-fluid figure-img" alt="A pile of pepper, free from any containment structures."></p>
-<p></p><figcaption class="figure-caption">To actually access the pepper, we have to use double indexing and index both the list object and the sub-object, as in <code>pepper[[1]][[1]]</code>.</figcaption><p></p>
-</figure>
+<figcaption class="figure-caption">To actually access the pepper, we have to use double indexing and index both the list object and the sub-object, as in <code>pepper[[1]][[1]]</code>.</figcaption></figure>
 </div>
 </div>
 </div>
@@ -495,12 +480,12 @@ $third_thing
 <pre><code>[1] "A"</code></pre>
 </div>
 </div>
-<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Note
 </div>
 </div>
@@ -520,8 +505,8 @@ Note
 </div></div><div class="cell">
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, mean <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 3.7285369 0.7166789 3.8175248 2.4609676 4.7094032 1.6242776 3.9324809
- [8] 5.8978374 2.7208493 4.8787993</code></pre>
+<pre><code> [1] 3.5219526 2.1142784 0.4839577 4.6940106 3.1138283 3.4050738 3.1606126
+ [8] 0.7450672 2.5857958 4.1544525</code></pre>
 </div>
 </div>
 <p>With vectorized functions, we don’t have to use a for loop to add these two vectors with 10 entries each together. In languages which don’t have implicit support for vectorized computations, this might instead look like:</p>
@@ -536,8 +521,8 @@ Note
 <span></span>
 <span><span class="va">result</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  5.1699090  3.1676718  2.1741276  2.1699792  5.3172499 -0.5303277
- [7]  4.9794343  5.3602351  3.6929630  5.0583391</code></pre>
+<pre><code> [1] 4.4677770 0.7294847 2.0314478 4.8303444 3.0171330 4.7413175 2.8300546
+ [8] 3.4042929 4.6639662 3.5533085</code></pre>
 </div>
 </div>
 <p>That is, we would <strong>apply</strong> or <strong>map</strong> the <code>+</code> function to each entry of a and b. For atomic vectors, it’s easy to do this by default; with a list, however, we need to be a bit more explicit (because everything that’s passed into the function may not be the same type).</p>
@@ -577,7 +562,7 @@ Note
 <p><br></p>
 <section id="functional-programming-example" class="level3 unnumbered ex"><h3 class="unnumbered anchored" data-anchor-id="functional-programming-example">Functional Programming Example</h3>
 <p>This example is modified from the motivation section of the <a href="http://adv-r.had.co.nz/Functional-programming.html">Functional Programming chapter</a> in Advanced R <span class="citation" data-cites="wickhamFunctionalProgramming2019">(<a href="#ref-wickhamFunctionalProgramming2019" role="doc-biblioref">Wickham 2019</a>)</span>.</p>
-<div class="panel-tabset">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist">
 <li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Problem</a></li>
 <li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Naive Approach</a></li>
@@ -1004,151 +989,152 @@ Caused by error:
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:600px; "><table class="table" style="margin-left: auto; margin-right: auto;">
-<thead><tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> url </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> id </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> name </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> gender </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> culture </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> born </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> died </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> alive </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> titles </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> aliases </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> father </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> mother </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> spouse </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> allegiances </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> books </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> povBooks </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> tvSeries </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> playedBy </th>
-  </tr></thead>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:600px; ">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">url</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">id</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">name</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">gender</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">culture</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">born</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">died</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">alive</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">titles</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">aliases</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">father</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">mother</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">spouse</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">allegiances</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">books</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">povBooks</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">tvSeries</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">playedBy</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> https://www.anapioficeandfire.com/api/characters/1022 </td>
-   <td style="text-align:right;"> 1022 </td>
-   <td style="text-align:left;"> Theon Greyjoy </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;"> Ironborn </td>
-   <td style="text-align:left;"> In 278 AC or 279 AC, at Pyke </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> TRUE </td>
-   <td style="text-align:left;"> Prince of Winterfell                                , Lord of the Iron Islands (by law of the green lands) </td>
-   <td style="text-align:left;"> Prince of Fools, Theon Turncloak, Reek           , Theon Kinslayer </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> House Greyjoy of Pyke </td>
-   <td style="text-align:left;"> A Game of Thrones, A Storm of Swords, A Feast for Crows </td>
-   <td style="text-align:left;"> A Clash of Kings    , A Dance with Dragons </td>
-   <td style="text-align:left;"> Season 1, Season 2, Season 3, Season 4, Season 5, Season 6 </td>
-   <td style="text-align:left;"> Alfie Allen </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> https://www.anapioficeandfire.com/api/characters/1052 </td>
-   <td style="text-align:right;"> 1052 </td>
-   <td style="text-align:left;"> Tyrion Lannister </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> In 273 AC, at Casterly Rock </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> TRUE </td>
-   <td style="text-align:left;"> Acting Hand of the King (former), Master of Coin (former) </td>
-   <td style="text-align:left;"> The Imp           , Halfman           , The boyman        , Giant of Lannister, Lord Tywin's Doom , Lord Tywin's Bane , Yollo             , Hugor Hill        , No-Nose           , Freak             , Dwarf </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> https://www.anapioficeandfire.com/api/characters/2044 </td>
-   <td style="text-align:left;"> House Lannister of Casterly Rock </td>
-   <td style="text-align:left;"> A Feast for Crows        , The World of Ice and Fire </td>
-   <td style="text-align:left;"> A Game of Thrones   , A Clash of Kings    , A Storm of Swords   , A Dance with Dragons </td>
-   <td style="text-align:left;"> Season 1, Season 2, Season 3, Season 4, Season 5, Season 6 </td>
-   <td style="text-align:left;"> Peter Dinklage </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> https://www.anapioficeandfire.com/api/characters/1074 </td>
-   <td style="text-align:right;"> 1074 </td>
-   <td style="text-align:left;"> Victarion Greyjoy </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;"> Ironborn </td>
-   <td style="text-align:left;"> In 268 AC or before, at Pyke </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> TRUE </td>
-   <td style="text-align:left;"> Lord Captain of the Iron Fleet, Master of the Iron Victory </td>
-   <td style="text-align:left;"> The Iron Captain </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> House Greyjoy of Pyke </td>
-   <td style="text-align:left;"> A Game of Thrones, A Clash of Kings , A Storm of Swords </td>
-   <td style="text-align:left;"> A Feast for Crows   , A Dance with Dragons </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> https://www.anapioficeandfire.com/api/characters/1109 </td>
-   <td style="text-align:right;"> 1109 </td>
-   <td style="text-align:left;"> Will </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> In 297 AC, at Haunted Forest </td>
-   <td style="text-align:left;"> FALSE </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> NULL </td>
-   <td style="text-align:left;"> A Clash of Kings </td>
-   <td style="text-align:left;"> A Game of Thrones </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> Bronson Webb </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> https://www.anapioficeandfire.com/api/characters/1166 </td>
-   <td style="text-align:right;"> 1166 </td>
-   <td style="text-align:left;"> Areo Hotah </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;"> Norvoshi </td>
-   <td style="text-align:left;"> In 257 AC or before, at Norvos </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> TRUE </td>
-   <td style="text-align:left;"> Captain of the Guard at Sunspear </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> House Nymeros Martell of Sunspear </td>
-   <td style="text-align:left;"> A Game of Thrones, A Clash of Kings , A Storm of Swords </td>
-   <td style="text-align:left;"> A Feast for Crows   , A Dance with Dragons </td>
-   <td style="text-align:left;"> Season 5, Season 6 </td>
-   <td style="text-align:left;"> DeObia Oparei </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> https://www.anapioficeandfire.com/api/characters/1267 </td>
-   <td style="text-align:right;"> 1267 </td>
-   <td style="text-align:left;"> Chett </td>
-   <td style="text-align:left;"> Male </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> At Hag's Mire </td>
-   <td style="text-align:left;"> In 299 AC, at Fist of the First Men </td>
-   <td style="text-align:left;"> FALSE </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;"> NULL </td>
-   <td style="text-align:left;"> A Game of Thrones, A Clash of Kings </td>
-   <td style="text-align:left;"> A Storm of Swords </td>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:left;">  </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">https://www.anapioficeandfire.com/api/characters/1022</td>
+<td style="text-align: right;">1022</td>
+<td style="text-align: left;">Theon Greyjoy</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">Ironborn</td>
+<td style="text-align: left;">In 278 AC or 279 AC, at Pyke</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">Prince of Winterfell , Lord of the Iron Islands (by law of the green lands)</td>
+<td style="text-align: left;">Prince of Fools, Theon Turncloak, Reek , Theon Kinslayer</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">House Greyjoy of Pyke</td>
+<td style="text-align: left;">A Game of Thrones, A Storm of Swords, A Feast for Crows</td>
+<td style="text-align: left;">A Clash of Kings , A Dance with Dragons</td>
+<td style="text-align: left;">Season 1, Season 2, Season 3, Season 4, Season 5, Season 6</td>
+<td style="text-align: left;">Alfie Allen</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">https://www.anapioficeandfire.com/api/characters/1052</td>
+<td style="text-align: right;">1052</td>
+<td style="text-align: left;">Tyrion Lannister</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">In 273 AC, at Casterly Rock</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">Acting Hand of the King (former), Master of Coin (former)</td>
+<td style="text-align: left;">The Imp , Halfman , The boyman , Giant of Lannister, Lord Tywin's Doom , Lord Tywin's Bane , Yollo , Hugor Hill , No-Nose , Freak , Dwarf</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">https://www.anapioficeandfire.com/api/characters/2044</td>
+<td style="text-align: left;">House Lannister of Casterly Rock</td>
+<td style="text-align: left;">A Feast for Crows , The World of Ice and Fire</td>
+<td style="text-align: left;">A Game of Thrones , A Clash of Kings , A Storm of Swords , A Dance with Dragons</td>
+<td style="text-align: left;">Season 1, Season 2, Season 3, Season 4, Season 5, Season 6</td>
+<td style="text-align: left;">Peter Dinklage</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">https://www.anapioficeandfire.com/api/characters/1074</td>
+<td style="text-align: right;">1074</td>
+<td style="text-align: left;">Victarion Greyjoy</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">Ironborn</td>
+<td style="text-align: left;">In 268 AC or before, at Pyke</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">Lord Captain of the Iron Fleet, Master of the Iron Victory</td>
+<td style="text-align: left;">The Iron Captain</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">House Greyjoy of Pyke</td>
+<td style="text-align: left;">A Game of Thrones, A Clash of Kings , A Storm of Swords</td>
+<td style="text-align: left;">A Feast for Crows , A Dance with Dragons</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">https://www.anapioficeandfire.com/api/characters/1109</td>
+<td style="text-align: right;">1109</td>
+<td style="text-align: left;">Will</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">In 297 AC, at Haunted Forest</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NULL</td>
+<td style="text-align: left;">A Clash of Kings</td>
+<td style="text-align: left;">A Game of Thrones</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Bronson Webb</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">https://www.anapioficeandfire.com/api/characters/1166</td>
+<td style="text-align: right;">1166</td>
+<td style="text-align: left;">Areo Hotah</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">Norvoshi</td>
+<td style="text-align: left;">In 257 AC or before, at Norvos</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">Captain of the Guard at Sunspear</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">House Nymeros Martell of Sunspear</td>
+<td style="text-align: left;">A Game of Thrones, A Clash of Kings , A Storm of Swords</td>
+<td style="text-align: left;">A Feast for Crows , A Dance with Dragons</td>
+<td style="text-align: left;">Season 5, Season 6</td>
+<td style="text-align: left;">DeObia Oparei</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">https://www.anapioficeandfire.com/api/characters/1267</td>
+<td style="text-align: right;">1267</td>
+<td style="text-align: left;">Chett</td>
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">At Hag's Mire</td>
+<td style="text-align: left;">In 299 AC, at Fist of the First Men</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">NULL</td>
+<td style="text-align: left;">A Game of Thrones, A Clash of Kings</td>
+<td style="text-align: left;">A Storm of Swords</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
 </tbody>
-</table></div>
+</table>
+</div>
 
 </div>
 </div>
@@ -1271,7 +1257,7 @@ Example: Benefits of List columns
   .. ..- attr(*, "order")= int 1
   .. ..- attr(*, "intercept")= int 1
   .. ..- attr(*, "response")= int 1
-  .. ..- attr(*, ".Environment")=&lt;environment: 0x00000170c3663b00&gt; 
+  .. ..- attr(*, ".Environment")=&lt;environment: 0x000002a27b5abc18&gt; 
   .. ..- attr(*, "predvars")= language list(y, x)
   .. ..- attr(*, "dataClasses")= Named chr [1:2] "numeric" "numeric"
   .. .. ..- attr(*, "names")= chr [1:2] "y" "x"
@@ -1288,7 +1274,7 @@ Example: Benefits of List columns
   .. .. ..- attr(*, "order")= int 1
   .. .. ..- attr(*, "intercept")= int 1
   .. .. ..- attr(*, "response")= int 1
-  .. .. ..- attr(*, ".Environment")=&lt;environment: 0x00000170c3663b00&gt; 
+  .. .. ..- attr(*, ".Environment")=&lt;environment: 0x000002a27b5abc18&gt; 
   .. .. ..- attr(*, "predvars")= language list(y, x)
   .. .. ..- attr(*, "dataClasses")= Named chr [1:2] "numeric" "numeric"
   .. .. .. ..- attr(*, "names")= chr [1:2] "y" "x"
@@ -1396,7 +1382,7 @@ Example: Benefits of List columns
 </div>
 <p>It can be a bit tricky to differentiate between options 2 and 3 in practice - the biggest difference is that you’re not using the keyword <code>function</code> and your variable is the default placeholder variable <code>.x</code> used in the tidyverse.</p>
 </section><section id="example" class="level3 unnumbered ex"><h3 class="unnumbered anchored" data-anchor-id="example">Example</h3>
-<div class="panel-tabset">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist">
 <li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Problem</a></li>
 <li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Solution</a></li>
@@ -1464,74 +1450,75 @@ Example: Benefits of List columns
 </div>
 <div class="cell">
 <div class="cell-output-display">
-
-<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:600px; "><table class="table" style="margin-left: auto; margin-right: auto;">
-<thead><tr>
-<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> name </th>
-   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> id </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> books </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> fun_def_res </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> fun_base_res </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> fun_anon_res </th>
-   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> fun_formula_res </th>
-  </tr></thead>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:600px; ">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">name</th>
+<th data-quarto-table-cell-role="th" style="text-align: right; position: sticky; top: 0; background-color: #FFFFFF;">id</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">books</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">fun_def_res</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">fun_base_res</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">fun_anon_res</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; position: sticky; top: 0; background-color: #FFFFFF;">fun_formula_res</th>
+</tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;"> Theon Greyjoy </td>
-   <td style="text-align:right;"> 1022 </td>
-   <td style="text-align:left;"> A Game of Thrones, A Storm of Swords, A Feast for Crows </td>
-   <td style="text-align:left;"> A Game of Thrones | A Storm of Swords | A Feast for Crows </td>
-   <td style="text-align:left;"> A Game of Thrones | A Storm of Swords | A Feast for Crows </td>
-   <td style="text-align:left;"> A Game of Thrones | A Storm of Swords | A Feast for Crows </td>
-   <td style="text-align:left;"> A Game of Thrones | A Storm of Swords | A Feast for Crows </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Tyrion Lannister </td>
-   <td style="text-align:right;"> 1052 </td>
-   <td style="text-align:left;"> A Feast for Crows        , The World of Ice and Fire </td>
-   <td style="text-align:left;"> A Feast for Crows | The World of Ice and Fire </td>
-   <td style="text-align:left;"> A Feast for Crows | The World of Ice and Fire </td>
-   <td style="text-align:left;"> A Feast for Crows | The World of Ice and Fire </td>
-   <td style="text-align:left;"> A Feast for Crows | The World of Ice and Fire </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Victarion Greyjoy </td>
-   <td style="text-align:right;"> 1074 </td>
-   <td style="text-align:left;"> A Game of Thrones, A Clash of Kings , A Storm of Swords </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings | A Storm of Swords </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings | A Storm of Swords </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings | A Storm of Swords </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings | A Storm of Swords </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Will </td>
-   <td style="text-align:right;"> 1109 </td>
-   <td style="text-align:left;"> A Clash of Kings </td>
-   <td style="text-align:left;"> A Clash of Kings </td>
-   <td style="text-align:left;"> A Clash of Kings </td>
-   <td style="text-align:left;"> A Clash of Kings </td>
-   <td style="text-align:left;"> A Clash of Kings </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Areo Hotah </td>
-   <td style="text-align:right;"> 1166 </td>
-   <td style="text-align:left;"> A Game of Thrones, A Clash of Kings , A Storm of Swords </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings | A Storm of Swords </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings | A Storm of Swords </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings | A Storm of Swords </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings | A Storm of Swords </td>
-  </tr>
-<tr>
-<td style="text-align:left;"> Chett </td>
-   <td style="text-align:right;"> 1267 </td>
-   <td style="text-align:left;"> A Game of Thrones, A Clash of Kings </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings </td>
-   <td style="text-align:left;"> A Game of Thrones | A Clash of Kings </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">Theon Greyjoy</td>
+<td style="text-align: right;">1022</td>
+<td style="text-align: left;">A Game of Thrones, A Storm of Swords, A Feast for Crows</td>
+<td style="text-align: left;">A Game of Thrones | A Storm of Swords | A Feast for Crows</td>
+<td style="text-align: left;">A Game of Thrones | A Storm of Swords | A Feast for Crows</td>
+<td style="text-align: left;">A Game of Thrones | A Storm of Swords | A Feast for Crows</td>
+<td style="text-align: left;">A Game of Thrones | A Storm of Swords | A Feast for Crows</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tyrion Lannister</td>
+<td style="text-align: right;">1052</td>
+<td style="text-align: left;">A Feast for Crows , The World of Ice and Fire</td>
+<td style="text-align: left;">A Feast for Crows | The World of Ice and Fire</td>
+<td style="text-align: left;">A Feast for Crows | The World of Ice and Fire</td>
+<td style="text-align: left;">A Feast for Crows | The World of Ice and Fire</td>
+<td style="text-align: left;">A Feast for Crows | The World of Ice and Fire</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Victarion Greyjoy</td>
+<td style="text-align: right;">1074</td>
+<td style="text-align: left;">A Game of Thrones, A Clash of Kings , A Storm of Swords</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings | A Storm of Swords</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings | A Storm of Swords</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings | A Storm of Swords</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings | A Storm of Swords</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Will</td>
+<td style="text-align: right;">1109</td>
+<td style="text-align: left;">A Clash of Kings</td>
+<td style="text-align: left;">A Clash of Kings</td>
+<td style="text-align: left;">A Clash of Kings</td>
+<td style="text-align: left;">A Clash of Kings</td>
+<td style="text-align: left;">A Clash of Kings</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Areo Hotah</td>
+<td style="text-align: right;">1166</td>
+<td style="text-align: left;">A Game of Thrones, A Clash of Kings , A Storm of Swords</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings | A Storm of Swords</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings | A Storm of Swords</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings | A Storm of Swords</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings | A Storm of Swords</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chett</td>
+<td style="text-align: right;">1267</td>
+<td style="text-align: left;">A Game of Thrones, A Clash of Kings</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings</td>
+<td style="text-align: left;">A Game of Thrones | A Clash of Kings</td>
+</tr>
 </tbody>
-</table></div>
+</table>
+</div>
 
 </div>
 </div>
@@ -1568,7 +1555,7 @@ Example: Benefits of List columns
 <p>Like <code>map</code>, you can specify the type of the output response using <code>map2</code>. This makes it very easy to format the output appropriately for your application.</p>
 <p>You can use functions with many arguments with <code>map</code> by using the <code>pmap</code> variant; here, you pass in a list of functions, which are identified by position (<code>..1, ..2, ..3,</code> etc). Note the <code>..</code> - you are referencing the list first, and the index within the list argument 2nd.</p>
 </section><section id="example-2" class="level4 unnumbered ex"><h4 class="unnumbered anchored" data-anchor-id="example-2">Example</h4>
-<div class="panel-tabset">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist">
 <li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Problem</a></li>
 <li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Solution</a></li>
@@ -1737,17 +1724,17 @@ Example: Benefits of List columns
 </section><section id="references" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="references">References</h3>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-bryanLessonsExamples20191021" class="csl-entry" role="doc-biblioentry">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bryanLessonsExamples20191021" class="csl-entry" role="listitem">
 Bryan, Jennifer. n.d. <span>“Lessons and <span>Examples</span>.”</span> <em>Purrr Tutorial</em>. Accessed November 14, 2022. <a href="https://jennybc.github.io/purrr-tutorial/index.html">https://jennybc.github.io/purrr-tutorial/index.html</a>.
 </div>
-<div id="ref-r4ds" class="csl-entry" role="doc-biblioentry">
+<div id="ref-r4ds" class="csl-entry" role="listitem">
 Grolemund, Garrett, and Hadley Wickham. 2017. <em>R for <span>Data</span> <span>Science</span></em>. 1st ed. O’Reilly Media. <a href="https://r4ds.had.co.nz/">https://r4ds.had.co.nz/</a>.
 </div>
-<div id="ref-rudisPiratingWebContent2017" class="csl-entry" role="doc-biblioentry">
+<div id="ref-rudisPiratingWebContent2017" class="csl-entry" role="listitem">
 Rudis, Bob. 2017. <span>“Pirating <span>Web</span> <span>Content</span> <span>Responsibly</span> <span>With</span> <span>R</span>.”</span> <em>Rud.is</em>. <a href="https://rud.is/b/2017/09/19/pirating-web-content-responsibly-with-r/">https://rud.is/b/2017/09/19/pirating-web-content-responsibly-with-r/</a>.
 </div>
-<div id="ref-wickhamFunctionalProgramming2019" class="csl-entry" role="doc-biblioentry">
+<div id="ref-wickhamFunctionalProgramming2019" class="csl-entry" role="listitem">
 Wickham, Hadley. 2019. <span>“Functional Programming.”</span> In <em>Advanced <span>R</span></em>, 2nd ed. The <span>R</span> Series. Chapman; Hall/CRC. <a href="http://adv-r.had.co.nz/Functional-programming.html">http://adv-r.had.co.nz/Functional-programming.html</a>.
 </div>
 </div>
@@ -1883,7 +1870,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   // Switch to dark mode if need be
   if (hasAlternateSentinel()) {
     toggleColorMode(true);
-  } 
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1891,9 +1880,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1905,7 +1908,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -1941,24 +1961,128 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
