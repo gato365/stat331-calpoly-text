@@ -4,8 +4,8 @@ project:
 
 book:
   title: "Stat 331/531 Statistical Computing with R"
-  author: "Emily Robinson"
-  date: "January 9, 2023"
+  author: "Immanuel Williams PhD"
+  date: "January 9, 2024"
   chapters:
     - index.qmd
     - 00-prereading.qmd
