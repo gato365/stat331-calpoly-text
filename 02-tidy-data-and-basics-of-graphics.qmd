@@ -456,7 +456,7 @@ Leveraging APIs allows for dynamic and up-to-date data analysis in various field
 #### The Role of Secrets and IDs in APIs
 
 - **API Keys/Client IDs**: These are unique identifiers that authenticate the identity of the user (you or your application) to the API service. They help API providers monitor usage, enforce rate limits, and ensure secure access to their data.
-- **Handling Secrets**: API keys should be kept confidential like passwords. It’s important not to expose them in publicly accessible areas like GitHub repositories. They can be managed using environment variables or secure files that are not shared or version-controlled.
+- **Handling Secrets**: API keys should be kept confidential like passwords. It’s important **not** to expose them in publicly accessible areas like GitHub repositories. They can be managed using environment variables or secure files that are not shared or version-controlled.
 
 #### JSON Format and Non-Structured Data Benefits
 
@@ -474,6 +474,7 @@ Leveraging APIs allows for dynamic and up-to-date data analysis in various field
   JSON is a flexible, text-based format that can represent complex, nested data structures. It's readable for both humans and machines.
 
 - **Benefits of Non-Structured Format**:
+
   - **Flexibility**: JSON can represent various data types and structures, from simple key-value pairs to complex nested objects.
   - **Hierarchy and Relationships**: JSON is excellent for data where relationships and hierarchy are important, like in nested objects or tree structures.
   - **API-Friendly**: JSON is widely used in web APIs for its flexibility and compatibility with web technologies.
