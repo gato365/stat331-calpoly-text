@@ -709,20 +709,44 @@ Additional external data formats
 <section id="api-data-access" class="level4" data-number="2.2.4.1"><h4 data-number="2.2.4.1" class="anchored" data-anchor-id="api-data-access">
 <span class="header-section-number">2.2.4.1</span> Utilizing APIs for Data Access and Analysis</h4>
 <p>In addition to traditional data formats, modern statistical computing often involves extracting data from various sources using Application Programming Interfaces (APIs). APIs provide a structured way to request and retrieve data from online sources, often returning data in JSON format, which can then be processed and analyzed in R. This approach is particularly useful for accessing real-time or frequently updated data.</p>
-<p><strong>Examples of APIs in Different Areas</strong>: - <strong>Spotify API</strong>: For projects in the Spotify area, the <a href="https://www.rcharlie.com/spotifyr/"><code>spotifyr</code></a> package in R can be used. This package allows you to pull song feature data, playlists, and more directly from Spotify’s Web API, offering a rich dataset for music-related analysis. - <strong>Finance Data</strong>: The <a href="https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ00-introduction-to-tidyquant.html"><code>tidyquant</code></a> package integrates with financial APIs, enabling access to historical stock price data, financial statement data, and more. It’s a powerful tool for finance-related data analysis and visualization. - <strong>Census Data</strong>: For projects involving census data, <a href="https://walker-data.com/tidycensus/"><code>tidycensus</code></a> is an R package that interfaces with the US Census Bureau’s APIs. It simplifies the process of downloading and managing public demographics data. - <strong>Sports Data</strong>: While there isn’t a unified R package for sports data, APIs such as those provided by <a href="https://www.sports-reference.com/">Sports Reference</a> can be used to build custom data extraction processes. This allows access to a wide range of sports statistics for detailed analysis.</p>
+<p><strong>Examples of APIs in Different Areas</strong>:</p>
+<ul>
+<li><p><strong>Spotify API</strong>: For projects in the Spotify area, the <a href="https://www.rcharlie.com/spotifyr/"><code>spotifyr</code></a> package in R can be used. This package allows you to pull song feature data, playlists, and more directly from Spotify’s Web API, offering a rich dataset for music-related analysis.</p></li>
+<li><p><strong>Finance Data</strong>: The <a href="https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ00-introduction-to-tidyquant.html"><code>tidyquant</code></a> package integrates with financial APIs, enabling access to historical stock price data, financial statement data, and more. It’s a powerful tool for finance-related data analysis and visualization.</p></li>
+<li><p><strong>Census Data</strong>: For projects involving census data, <a href="https://walker-data.com/tidycensus/"><code>tidycensus</code></a> is an R package that interfaces with the US Census Bureau’s APIs. It simplifies the process of downloading and managing public demographics data.</p></li>
+<li><p><strong>Sports Data</strong>: While there isn’t a unified R package for sports data, APIs such as those provided by <a href="https://www.sports-reference.com/">Sports Reference</a> can be used to build custom data extraction processes. This allows access to a wide range of sports statistics for detailed analysis.</p></li>
+</ul>
 <p>Leveraging APIs allows for dynamic and up-to-date data analysis in various fields, making it an essential skill in data science and statistical computing.</p>
-<p>Absolutely! Let’s dive deeper into APIs, how they differ from reading in CSV files, and explore some of their unique aspects, including the use of secrets and IDs, as well as JSON format.</p>
 </section><section id="apis-vs.-reading-in-csv-files" class="level4" data-number="2.2.4.2"><h4 data-number="2.2.4.2" class="anchored" data-anchor-id="apis-vs.-reading-in-csv-files">
 <span class="header-section-number">2.2.4.2</span> APIs vs.&nbsp;Reading in CSV Files</h4>
-<p><strong>APIs (Application Programming Interfaces)</strong>: - <strong>Dynamic Data Access</strong>: APIs provide real-time access to data, which means you can retrieve the most current data available from the source. This is particularly useful for data that changes frequently, like stock prices or social media stats. - <strong>Custom Queries</strong>: APIs often allow you to specify exactly what data you want to retrieve. For example, you could request data for a specific time period, geographic location, or set of variables. - <strong>Authentication</strong>: Accessing data through APIs often requires authentication, usually in the form of API keys, client IDs, or tokens. These act as passwords to ensure secure data transfer and to control access. - <strong>Rate Limits and Quotas</strong>: Many APIs impose limits on how often you can make requests (rate limiting) or the total volume of data you can retrieve (quotas) to prevent server overload. - <strong>Data Format</strong>: API responses are often in JSON (JavaScript Object Notation) format, which is highly flexible and supports hierarchical, complex data structures, but requires parsing to convert into a tabular format for analysis.</p>
-<p><strong>Reading in CSV Files</strong>: - <strong>Static Data</strong>: CSV files represent a snapshot of data at a specific point in time. They are static and don’t change unless you download an updated file. - <strong>Simplicity</strong>: Reading a CSV is straightforward and doesn’t usually require authentication or dealing with rate limits. - <strong>Structured Data</strong>: CSV files are inherently structured in a tabular format, making them immediately ready for analysis in most statistical software without the need for additional parsing.</p>
-</section><section id="the-role-of-secrets-and-ids-in-apis" class="level4" data-number="2.2.4.3"><h4 data-number="2.2.4.3" class="anchored" data-anchor-id="the-role-of-secrets-and-ids-in-apis">
+<p><strong>APIs (Application Programming Interfaces)</strong>:</p>
+<ul>
+<li>
+<strong>Dynamic Data Access</strong>: APIs provide real-time access to data, which means you can retrieve the most current data available from the source. This is particularly useful for data that changes frequently, like stock prices or social media stats.</li>
+<li>
+<strong>Custom Queries</strong>: APIs often allow you to specify exactly what data you want to retrieve. For example, you could request data for a specific time period, geographic location, or set of variables.</li>
+<li>
+<strong>Authentication</strong>: Accessing data through APIs often requires authentication, usually in the form of API keys, client IDs, or tokens. These act as passwords to ensure secure data transfer and to control access.</li>
+<li>
+<strong>Rate Limits and Quotas</strong>: Many APIs impose limits on how often you can make requests (rate limiting) or the total volume of data you can retrieve (quotas) to prevent server overload.</li>
+<li>
+<strong>Data Format</strong>: API responses are often in JSON (JavaScript Object Notation) format, which is highly flexible and supports hierarchical, complex data structures, but requires parsing to convert into a tabular format for analysis.</li>
+</ul>
+<p><strong>Reading in CSV Files</strong>:</p>
+<ul>
+<li>
+<strong>Static Data</strong>: CSV files represent a snapshot of data at a specific point in time. They are static and don’t change unless you download an updated file.</li>
+<li>
+<strong>Simplicity</strong>: Reading a CSV is straightforward and doesn’t usually require authentication or dealing with rate limits.</li>
+<li>
+<strong>Structured Data</strong>: CSV files are inherently structured in a tabular format, making them immediately ready for analysis in most statistical software without the need for additional parsing.</li>
+</ul></section><section id="the-role-of-secrets-and-ids-in-apis" class="level4" data-number="2.2.4.3"><h4 data-number="2.2.4.3" class="anchored" data-anchor-id="the-role-of-secrets-and-ids-in-apis">
 <span class="header-section-number">2.2.4.3</span> The Role of Secrets and IDs in APIs</h4>
 <ul>
 <li>
 <strong>API Keys/Client IDs</strong>: These are unique identifiers that authenticate the identity of the user (you or your application) to the API service. They help API providers monitor usage, enforce rate limits, and ensure secure access to their data.</li>
 <li>
-<strong>Handling Secrets</strong>: API keys should be kept confidential like passwords. It’s important not to expose them in publicly accessible areas like GitHub repositories. They can be managed using environment variables or secure files that are not shared or version-controlled.</li>
+<strong>Handling Secrets</strong>: API keys should be kept confidential like passwords. It’s important <strong>not</strong> to expose them in publicly accessible areas like GitHub repositories. They can be managed using environment variables or secure files that are not shared or version-controlled.</li>
 </ul></section><section id="json-format-and-non-structured-data-benefits" class="level4" data-number="2.2.4.4"><h4 data-number="2.2.4.4" class="anchored" data-anchor-id="json-format-and-non-structured-data-benefits">
 <span class="header-section-number">2.2.4.4</span> JSON Format and Non-Structured Data Benefits</h4>
 <ul>
@@ -740,7 +764,7 @@ Additional external data formats
 <p>JSON is a flexible, text-based format that can represent complex, nested data structures. It’s readable for both humans and machines.</p>
 <ul>
 <li>
-<strong>Benefits of Non-Structured Format</strong>:
+<p><strong>Benefits of Non-Structured Format</strong>:</p>
 <ul>
 <li>
 <strong>Flexibility</strong>: JSON can represent various data types and structures, from simple key-value pairs to complex nested objects.</li>
