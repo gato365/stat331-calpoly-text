@@ -424,19 +424,23 @@ For this check-in you are asked to work through reading in different data sets. 
 In addition to traditional data formats, modern statistical computing often involves extracting data from various sources using Application Programming Interfaces (APIs). APIs provide a structured way to request and retrieve data from online sources, often returning data in JSON format, which can then be processed and analyzed in R. This approach is particularly useful for accessing real-time or frequently updated data.
 
 **Examples of APIs in Different Areas**:
+
 - **Spotify API**: For projects in the Spotify area, the [`spotifyr`](https://www.rcharlie.com/spotifyr/) package in R can be used. This package allows you to pull song feature data, playlists, and more directly from Spotify’s Web API, offering a rich dataset for music-related analysis.
+
 - **Finance Data**: The [`tidyquant`](https://cran.r-project.org/web/packages/tidyquant/vignettes/TQ00-introduction-to-tidyquant.html) package integrates with financial APIs, enabling access to historical stock price data, financial statement data, and more. It's a powerful tool for finance-related data analysis and visualization.
+
 - **Census Data**: For projects involving census data, [`tidycensus`](https://walker-data.com/tidycensus/) is an R package that interfaces with the US Census Bureau’s APIs. It simplifies the process of downloading and managing public demographics data.
+
 - **Sports Data**: While there isn't a unified R package for sports data, APIs such as those provided by [Sports Reference](https://www.sports-reference.com/) can be used to build custom data extraction processes. This allows access to a wide range of sports statistics for detailed analysis.
 
 Leveraging APIs allows for dynamic and up-to-date data analysis in various fields, making it an essential skill in data science and statistical computing.
 
 
-Absolutely! Let's dive deeper into APIs, how they differ from reading in CSV files, and explore some of their unique aspects, including the use of secrets and IDs, as well as JSON format.
 
 #### APIs vs. Reading in CSV Files
 
 **APIs (Application Programming Interfaces)**:
+
 - **Dynamic Data Access**: APIs provide real-time access to data, which means you can retrieve the most current data available from the source. This is particularly useful for data that changes frequently, like stock prices or social media stats.
 - **Custom Queries**: APIs often allow you to specify exactly what data you want to retrieve. For example, you could request data for a specific time period, geographic location, or set of variables.
 - **Authentication**: Accessing data through APIs often requires authentication, usually in the form of API keys, client IDs, or tokens. These act as passwords to ensure secure data transfer and to control access.
@@ -444,6 +448,7 @@ Absolutely! Let's dive deeper into APIs, how they differ from reading in CSV fil
 - **Data Format**: API responses are often in JSON (JavaScript Object Notation) format, which is highly flexible and supports hierarchical, complex data structures, but requires parsing to convert into a tabular format for analysis.
 
 **Reading in CSV Files**:
+
 - **Static Data**: CSV files represent a snapshot of data at a specific point in time. They are static and don't change unless you download an updated file.
 - **Simplicity**: Reading a CSV is straightforward and doesn't usually require authentication or dealing with rate limits.
 - **Structured Data**: CSV files are inherently structured in a tabular format, making them immediately ready for analysis in most statistical software without the need for additional parsing.
