@@ -40,6 +40,15 @@ Broadly, your objective while reading this chapter is to be able to identify dat
 ::: note
 Functions covered this week:
 
+`library(forcats)` (not an exhaustive list)
+
++ `factor()`, `levels()`
++ `fct_relevel()`
++ `fct_reorder()` `fct_reorder2()`
++ `fct_collapse()`
+
+Download the [`forcats` cheatsheet](https://posit.co/wp-content/uploads/2022/10/factors-1.pdf).
+
 `library(tidyr)`
 
 + `pivot_longer()`, `pivot_wider()`
@@ -55,12 +64,82 @@ Functions covered this week:
 <br>
 
 ::: check-in
-## Check-ins {#ch4-checkins .unnumbered}
+## Check-ins {- #ch4-checkins}
 
-There are two check-ins for this week:
+There are three check-ins for this week:
 
-+ [Check-in 4.1: Pivoting Cereal](#checkin4-1)
-+ [Check-in 4.2: Practice with Joins](#checkin4-2)
++ [Check-in 4.1: Functions from `forcats`](#checkin4-1)
++ [Check-in 4.2: Practice with Pivoting and Joins](#checkin4-2)
+:::
+
+
+
+## Factors with `forcats`
+
+We have been floating around the idea of *factor* data types. In this section, we will formally define factors and why they are needed for data visualization and analysis. We will then learn useful functions for working with factors in our data cleaning steps.
+
+::: column-margin
+
+{{< video https://www.youtube.com/embed/dAiSYli7tVg >}} 
+
+:::
+
+In short, factors are categorical variables with a fixed number of values (think a set number of groups). One of the main features that set factors apart from groups is that you can reorder the groups to be non-alphabetical. In this section we will be using the `forcats` package (part of the `tidyverse`!) to create and manipulate factor variables.
+
+::: go-read
+(Required) Go read about factors in [r4ds](https://r4ds.hadley.nz/factors.html).
+<br>
+:::
+
+::: column-margin
+```{r}
+#| echo: false
+#| out-width: "70%"
+#| fig-align: center
+knitr::include_graphics("https://github.com/rstudio/hex-stickers/blob/main/thumbs/forcats.png?raw=true")
+```
+:::
+
+<br>
+
+::: check-in
+## Check-in 4.1: Functions from `forcats` {- #checkin4-1}
+
+Answer the following questions in the Canvas Quiz.
+
+**1. Which of the following tasks can `fct_recode()` accomplish?**
+
++ changes the values of the factor levels
++ reorders the levels of a factor
++ remove levels of a factor you don’t want
++ collapse levels of a factor into a new level
+
+**2. Which of the following tasks can `fct_relevel()` accomplish?**
+
++ reorders the levels of a factor
++ changes the values of the factor levels
++ remove levels of a factor you don’t want
++ collapse levels of a factor into a new level
+
+**3. What is the main difference between `fct_collapse()` and `fct_recode()`?**
+
++ `fct_recode()` uses strings to create factor levels
++ `fct_recode()` uses groups to create factor levels
++ `fct_recode()` cannot create an “Other” group
+
+**4. What ordering do you get with `fct_reorder()`?**
+
++ largest to smallest based on another variable
++ order of appearance
++ largest to smallest based on counts
++ alphabetical order
+
+**5. What ordering do you get with `fct_inorder()`?**
+
++ order of appearance
++ alphabetical order
++ largest to smallest based on counts
++ largest to smallest based on another variable
 :::
 
 ## Identifying the problem: Messy data
@@ -280,35 +359,7 @@ Read more about pivoting in [r4ds](https://r4ds.hadley.nz/data-tidy.html#sec-piv
 
 <br>
 
-::: check-in
-### Check-in 4.1: Pivoting Cereal {#checkin4-1 .unnumbered}
 
-Load in the `cereal` data set:
-
-```{r}
-library(liver)
-data(cereal)
-head(cereal)
-```
-
-Create a new data set called `cereals_long`, that has three columns:
-
-+ The `name` of the cereal
-+ A column called `Nutrient` with values "protein", "fat", or "fiber".
-+ A column called `Amount` with the corresponding amount of the nutrient.
-
-Complete the code template to complete the task in the Canvas Quiz.
-
-```{r checkin4-1-answer}
-#| include: false
-cereal |>
-  pivot_longer(cols = c(protein, fat, fiber),
-               names_to = "Nutrient",
-               values_to = "Amount") |>
-  select(name, Nutrient, Amount)
-```
-
-:::
 
 ## Separating and Uniting Variables
 
@@ -590,9 +641,35 @@ Read more about joins in [r4ds](https://r4ds.hadley.nz/joins.html)
 <br>
 
 ::: check-in
-### Check-in 4.2: Practice with Joins {#checkin4-2 .unnumbered}
+### Check-in 4.2: Practice with Pivoting & Joins {#checkin4-2 .unnumbered}
 
-The following code creates three data sets:
+**Part 1 (Pivoting)** Load in the `cereal` data set Note: you may need to `install.packages("liver")`:
+
+```{r}
+library(liver)
+data(cereal)
+head(cereal)
+```
+
+**Question 1:** Create a new data set called `cereals_long`, that has three columns:
+
++ The `name` of the cereal
++ A column called `Nutrient` with values "protein", "fat", or "fiber".
++ A column called `Amount` with the corresponding amount of the nutrient.
+
+Complete the code template to complete the task in the Canvas Quiz.
+
+```{r checkin4-1-answer}
+#| include: false
+cereal |>
+  pivot_longer(cols = c(protein, fat, fiber),
+               names_to = "Nutrient",
+               values_to = "Amount") |>
+  select(name, Nutrient, Amount)
+```
+
+
+**Part 2 (Joins)** The following code creates three data sets:
 
 ```{r}
 prof_info <- data.frame(
@@ -634,7 +711,7 @@ course_info
 
 These data sets contain information about five Cal Poly professors, their educational history, the classes they are able to teach, and the number of sections of each class that need to be assigned.
 
-+ **Question 1** Combine data sets `prof_info` and `prof_course` to make this data set:
++ **Question 2** Combine data sets `prof_info` and `prof_course` to make this data set:
 
 ```{r}
 #| echo: false
@@ -642,7 +719,7 @@ inner_join(prof_info, prof_course, by = "professor") |>
   kable()
 ```
 
-+ **Question 2** Combine data sets `prof_info` and `prof_course` to make this data set:
++ **Question 3** Combine data sets `prof_info` and `prof_course` to make this data set:
 
 ```{r}
 #| echo: false
@@ -650,7 +727,7 @@ left_join(prof_info, prof_course) |>
   knitr::kable()
 ```
 
-+ **Question 3** Transform and combine data sets `prof_course` and `course_info` to make this data set:
++ **Question 4** Transform and combine data sets `prof_course` and `course_info` to make this data set:
 
 ```{r}
 #| echo: false
@@ -674,7 +751,7 @@ Complete the code templates to complete these tasks in the Canvas Quiz.
 
 This week you will be tidying untidy data to explore the relationship between countries of the world and military spending.
 
-Visit [PA 4: Government Spending](https://earobinson95.github.io/stat331-calpoly/practice-activities/PA4-government-spending.html) for instructions.
+Visit [PA 4: Government Spending](https://gato365.github.io/stat331-calpoly-gato365/practice-activities/PA4-government-spending.html) for instructions.
 
 Submit your answers to associated questions to the Canvas quiz.
 
