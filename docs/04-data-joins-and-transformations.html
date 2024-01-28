@@ -293,7 +293,7 @@ div.csl-indent {
   </div>
   
 
-</header><p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z"></path></svg> Reading: 15 minute(s) at 200 WPM.</p>
+</header><p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M249.6 471.5c10.8 3.8 22.4-4.1 22.4-15.5V78.6c0-4.2-1.6-8.4-5-11C247.4 52 202.4 32 144 32C93.5 32 46.3 45.3 18.1 56.1C6.8 60.5 0 71.7 0 83.8V454.1c0 11.9 12.8 20.2 24.1 16.5C55.6 460.1 105.5 448 144 448c33.9 0 79 14 105.6 23.5zm76.8 0C353 462 398.1 448 432 448c38.5 0 88.4 12.1 119.9 22.6c11.3 3.8 24.1-4.6 24.1-16.5V83.8c0-12.1-6.8-23.3-18.1-27.6C529.7 45.3 482.5 32 432 32c-58.4 0-103.4 20-123 35.6c-3.3 2.6-5 6.8-5 11V456c0 11.4 11.7 19.3 22.4 15.5z"></path></svg> Reading: 16 minute(s) at 200 WPM.</p>
 <p><svg aria-hidden="true" role="img" viewbox="0 0 576 512" style="height:1em;width:1.12em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"></path></svg> Videos: 26 minutes.</p>
 <section id="ch4-objectives" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="ch4-objectives">Objectives</h2>
 <p>Broadly, your objective while reading this chapter is to be able to identify data sets which have “messy” formats and determine a sequence of operations to transition the data into “tidy” format. To do this, you should be master the following concepts:</p>
@@ -1242,23 +1242,24 @@ Demonstration: Mutating Joins
 <div class="cell">
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prof_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
 <span>  professor <span class="op">=</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bodwin"</span>, <span class="st">"Glanz"</span>, <span class="st">"Carlton"</span>, <span class="st">"Sun"</span>, <span class="st">"Robinson"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bodwin"</span>, <span class="st">"Glanz"</span>, <span class="st">"Carlton"</span>, <span class="st">"Sun"</span>, <span class="st">"Robinson"</span>,<span class="st">"Williams"</span><span class="op">)</span>,</span>
 <span>  undergrad_school <span class="op">=</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Harvard"</span>, <span class="st">"Cal Poly"</span>, <span class="st">"Berkeley"</span>, <span class="st">"Harvard"</span>, <span class="st">"Winona State University"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Harvard"</span>, <span class="st">"Cal Poly"</span>, <span class="st">"Berkeley"</span>, <span class="st">"Harvard"</span>, <span class="st">"Winona State University"</span>,<span class="st">"UMBC"</span><span class="op">)</span>,</span>
 <span>  grad_school <span class="op">=</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"UNC"</span>, <span class="st">"Boston University"</span>, <span class="st">"UCLA"</span>, <span class="st">"Stanford"</span>, <span class="st">"University of Nebraska-Lincoln"</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"UNC"</span>, <span class="st">"Boston University"</span>, <span class="st">"UCLA"</span>, <span class="st">"Stanford"</span>, <span class="st">"University of Nebraska-Lincoln"</span>, <span class="st">"Rutgers"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">prof_course</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  professor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bodwin"</span>, <span class="st">"Glanz"</span>, <span class="st">"Carlton"</span>, <span class="st">"Theobold"</span>, <span class="st">"Robinson"</span><span class="op">)</span>,</span>
-<span>  Stat_331 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>  Stat_330 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>  Stat_431 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  professor <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Bodwin"</span>, <span class="st">"Glanz"</span>, <span class="st">"Carlton"</span>, <span class="st">"Theobold"</span>, <span class="st">"Robinson"</span>, <span class="st">"Williams"</span><span class="op">)</span>,</span>
+<span>  Stat_331 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>,<span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  Stat_330 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>,<span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  Stat_431 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>,<span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  Cs_123 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">course_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span>  course <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Stat_331"</span>, <span class="st">"Stat_330"</span>, <span class="st">"Stat_431"</span><span class="op">)</span>,</span>
-<span>  num_sections <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  course <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Stat_331"</span>, <span class="st">"Stat_330"</span>, <span class="st">"Stat_431"</span>, <span class="st">"Cs_123"</span><span class="op">)</span>,</span>
+<span>  num_sections <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">3</span>, <span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here is what they look like once created:</p>
@@ -1270,18 +1271,20 @@ Demonstration: Mutating Joins
 2     Glanz                Cal Poly              Boston University
 3   Carlton                Berkeley                           UCLA
 4       Sun                 Harvard                       Stanford
-5  Robinson Winona State University University of Nebraska-Lincoln</code></pre>
+5  Robinson Winona State University University of Nebraska-Lincoln
+6  Williams                    UMBC                        Rutgers</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prof_course</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  professor Stat_331 Stat_330 Stat_431
-1    Bodwin     TRUE    FALSE     TRUE
-2     Glanz     TRUE     TRUE     TRUE
-3   Carlton     TRUE     TRUE    FALSE
-4  Theobold     TRUE    FALSE     TRUE
-5  Robinson     TRUE     TRUE    FALSE</code></pre>
+<pre><code>  professor Stat_331 Stat_330 Stat_431 Cs_123
+1    Bodwin     TRUE    FALSE     TRUE  FALSE
+2     Glanz     TRUE     TRUE     TRUE  FALSE
+3   Carlton     TRUE     TRUE    FALSE  FALSE
+4  Theobold     TRUE    FALSE     TRUE  FALSE
+5  Robinson     TRUE     TRUE    FALSE  FALSE
+6  Williams     TRUE    FALSE     TRUE   TRUE</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -1290,7 +1293,8 @@ Demonstration: Mutating Joins
 <pre><code>    course num_sections
 1 Stat_331            8
 2 Stat_330            3
-3 Stat_431            1</code></pre>
+3 Stat_431            1
+4   Cs_123            5</code></pre>
 </div>
 </div>
 <p>These data sets contain information about five Cal Poly professors, their educational history, the classes they are able to teach, and the number of sections of each class that need to be assigned.</p>
@@ -1308,6 +1312,7 @@ Demonstration: Mutating Joins
 <th style="text-align: left;" data-quarto-table-cell-role="th">Stat_331</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Stat_330</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Stat_431</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Cs_123</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -1317,6 +1322,7 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Glanz</td>
@@ -1325,6 +1331,7 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Carlton</td>
@@ -1332,6 +1339,7 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">UCLA</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">FALSE</td>
 </tr>
 <tr class="even">
@@ -1341,6 +1349,16 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Williams</td>
+<td style="text-align: left;">UMBC</td>
+<td style="text-align: left;">Rutgers</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
 </tr>
 </tbody>
 </table>
@@ -1360,6 +1378,7 @@ Demonstration: Mutating Joins
 <th style="text-align: left;" data-quarto-table-cell-role="th">Stat_331</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Stat_330</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Stat_431</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Cs_123</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -1369,6 +1388,7 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Glanz</td>
@@ -1377,6 +1397,7 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Carlton</td>
@@ -1385,11 +1406,13 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Sun</td>
 <td style="text-align: left;">Harvard</td>
 <td style="text-align: left;">Stanford</td>
+<td style="text-align: left;">NA</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">NA</td>
@@ -1401,6 +1424,16 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">FALSE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Williams</td>
+<td style="text-align: left;">UMBC</td>
+<td style="text-align: left;">Rutgers</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: left;">TRUE</td>
 </tr>
 </tbody>
 </table>
@@ -1439,22 +1472,34 @@ Demonstration: Mutating Joins
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">Bodwin</td>
+<td style="text-align: left;">Cs_123</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">Glanz</td>
 <td style="text-align: left;">Stat_331</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: right;">8</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Glanz</td>
 <td style="text-align: left;">Stat_330</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: right;">3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Glanz</td>
 <td style="text-align: left;">Stat_431</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Glanz</td>
+<td style="text-align: left;">Cs_123</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Carlton</td>
@@ -1475,22 +1520,34 @@ Demonstration: Mutating Joins
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">Carlton</td>
+<td style="text-align: left;">Cs_123</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">Theobold</td>
 <td style="text-align: left;">Stat_331</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: right;">8</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Theobold</td>
 <td style="text-align: left;">Stat_330</td>
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: right;">3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Theobold</td>
 <td style="text-align: left;">Stat_431</td>
 <td style="text-align: left;">TRUE</td>
 <td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Theobold</td>
+<td style="text-align: left;">Cs_123</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Robinson</td>
@@ -1509,6 +1566,36 @@ Demonstration: Mutating Joins
 <td style="text-align: left;">Stat_431</td>
 <td style="text-align: left;">FALSE</td>
 <td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Robinson</td>
+<td style="text-align: left;">Cs_123</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Williams</td>
+<td style="text-align: left;">Stat_331</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Williams</td>
+<td style="text-align: left;">Stat_330</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Williams</td>
+<td style="text-align: left;">Stat_431</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Williams</td>
+<td style="text-align: left;">Cs_123</td>
+<td style="text-align: left;">TRUE</td>
+<td style="text-align: right;">5</td>
 </tr>
 </tbody>
 </table>

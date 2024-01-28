@@ -597,23 +597,24 @@ The following code creates three data sets:
 ```{r}
 prof_info <- data.frame(
   professor =
-    c("Bodwin", "Glanz", "Carlton", "Sun", "Robinson"),
+    c("Bodwin", "Glanz", "Carlton", "Sun", "Robinson","Williams"),
   undergrad_school =
-    c("Harvard", "Cal Poly", "Berkeley", "Harvard", "Winona State University"),
+    c("Harvard", "Cal Poly", "Berkeley", "Harvard", "Winona State University","UMBC"),
   grad_school =
-    c("UNC", "Boston University", "UCLA", "Stanford", "University of Nebraska-Lincoln")
+    c("UNC", "Boston University", "UCLA", "Stanford", "University of Nebraska-Lincoln", "Rutgers")
 )
 
 prof_course <- data.frame(
-  professor = c("Bodwin", "Glanz", "Carlton", "Theobold", "Robinson"),
-  Stat_331 = c(TRUE, TRUE, TRUE, TRUE, TRUE),
-  Stat_330 = c(FALSE, TRUE, TRUE, FALSE, TRUE),
-  Stat_431 = c(TRUE, TRUE, FALSE, TRUE, FALSE)
+  professor = c("Bodwin", "Glanz", "Carlton", "Theobold", "Robinson", "Williams"),
+  Stat_331 = c(TRUE, TRUE, TRUE, TRUE, TRUE,TRUE),
+  Stat_330 = c(FALSE, TRUE, TRUE, FALSE, TRUE,FALSE),
+  Stat_431 = c(TRUE, TRUE, FALSE, TRUE, FALSE,TRUE),
+  Cs_123 = c(FALSE, FALSE, FALSE, FALSE, FALSE, TRUE)
 )
 
 course_info <- data.frame(
-  course = c("Stat_331", "Stat_330", "Stat_431"),
-  num_sections = c(8, 3, 1)
+  course = c("Stat_331", "Stat_330", "Stat_431", "Cs_123"),
+  num_sections = c(8, 3, 1, 5)
 )
 ```
 
@@ -637,7 +638,7 @@ These data sets contain information about five Cal Poly professors, their educat
 
 ```{r}
 #| echo: false
-inner_join(prof_info, prof_course) |>
+inner_join(prof_info, prof_course, by = "professor") |>
   kable()
 ```
 
@@ -655,7 +656,7 @@ left_join(prof_info, prof_course) |>
 #| echo: false
 
 prof_course |>
-  pivot_longer(cols = c(Stat_331, Stat_330, Stat_431),
+  pivot_longer(cols = c(Stat_331, Stat_330, Stat_431, Cs_123),
                names_to = "course",
                values_to = "can_teach") |>
 full_join(course_info) |>
