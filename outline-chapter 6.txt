@@ -1,42 +1,5 @@
 
-
-Shiny Chapter Notes
-[CN] - Canvas New Quiz
-Subject: Subsection
-[I] - Image
-
-Chapter 6
-Introduction (2-3 paragraphs)
-
-Section 1 - UI
-    a: fluid panel [Image]
-    b: sidebar panel [Image]
-    c: main panel [Image]
-    d: conditional panels [GIF]
-Text: 
-
-
-Section 2 - widgets
-    a: Number Inputs (Sliders [one, two], NumbericInput) [Image]
-    b: radio, dropdown, text [Image]
-    c: dates, Files, checkbox [Image]
-        -- custom widgets exists (htmlwidgets): Provide URL
-Text: 
-
-
-Section 3 - Server
-    a: plot
-    b: text
-    c: htmltext
-    d: table (DT)
-
-
-Text: 
-
-Section 4 - Putting all together
-    a: PFS-mini (plot)
-    b: mtcars (table)
-    c: statistical Analysis
+Check-Ins
 
 Practice Activity (PA 4)
 Details:
