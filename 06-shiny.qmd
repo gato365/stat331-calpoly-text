@@ -147,42 +147,52 @@ In Shiny, widgets are the building blocks for creating interactive user interfac
 Syntax for a single-value slider:
 
 ```{r}
+#| eval: false
 sliderInput(inputId = "id", label = "Sliders Label 1", min = 1, max = 100, value = 50)
 ```
 
 Syntax for a range slider (selecting two values):
 ```{r}
-sliderInput(inputId ="id", label = "Sliders Label2", min = 1, max = 100, value = c(25, 75))
+#| eval: false
+sliderInput(inputId ="id", label = "Sliders Label2",
+            min = 1, max = 100, value = c(25, 75))
 ```
 
 **NumericInput**: This widget lets users input a number by typing into a field, with optional up/down arrows for incrementing the value.
 
 Syntax:
 ```{r}
-numericInput(inputId ="id", label = "NumericInput Label", value = 10, min = 1, max = 100)
+#| eval: false
+numericInput(inputId ="id", label = "NumericInput Label",
+             value = 10, min = 1, max = 100)
 ```
 
 ### Radio Buttons, Dropdowns, Text Input
 
 **Radio Buttons**: Radio buttons present a set of options from which the user can select only one. They are useful for mutually exclusive choices.
 
-Syntax:
 ```{r}
-radioButtons(inputId ="id", label = "Radio Buttons Label", choices = list("Option 1" = 1, "Option 2" = 2))
+#| eval: false
+radioButtons(inputId ="id", label = "Radio Buttons Label", 
+             choices = list("Option 1" = 1, "Option 2" = 2))
 ```
 
 **Dropdown Menus**: Dropdown menus, also known as select inputs, let users choose an option from a dropdown list.
 
 Syntax:
 ```{r}
-selectInput(inputId ="id", label = "Dropdown Menus Label", choices = c("Option 1", "Option 2"))
+#| eval: false
+selectInput(inputId ="id", label = "Dropdown Menus Label",
+            choices = c("Option 1", "Option 2"))
 ```
 
 **Text Input**: Text input fields allow users to enter free-form text.
 
 Syntax:
 ```{r}
-textInput(inputId ="id", label = "Text Input Label", value = "Enter text here")
+#| eval: false
+textInput(inputId ="id", label = "Text Input Label", 
+          value = "Enter text here")
 ```
 
 ### Dates, Files, Checkboxes
@@ -191,13 +201,16 @@ textInput(inputId ="id", label = "Text Input Label", value = "Enter text here")
 
 Syntax:
 ```{r}
-dateInput(inputId ="id", label = "Date Input Label", value = Sys.Date())
+#| eval: false
+dateInput(inputId ="id", label = "Date Input Label",
+          value = Sys.Date())
 ```
 
 **File Input**: File input widgets provide a way for users to upload files into the Shiny application, which can then be processed by the server.
 
 Syntax:
 ```{r}
+#| eval: false
 fileInput(inputId ="id", label = "File Input Label")
 ```
 
@@ -205,10 +218,264 @@ fileInput(inputId ="id", label = "File Input Label")
 
 Syntax:
 ```{r}
-checkboxInput(inputId ="id", label = "Checkboxes Label", value = TRUE)
+#| eval: false
+checkboxInput(inputId ="id", label = "Checkboxes Label", 
+              value = TRUE)
 ```
 
 **Custom Widgets**: Beyond the standard widgets, Shiny also supports custom widgets through the htmlwidgets package. These allow for the integration of custom web components and more sophisticated user inputs. You can explore a variety of htmlwidgets and their uses at [htmlwidgets.org](https://www.htmlwidgets.org/).
 
 
-##
+
+## Section 3 - Server
+
+In Shiny applications, the server function houses the logic that processes inputs, performs computations, and determines the output displayed in the user interface. It's where the reactive connections between the UI (User Interface) widgets and the application's results are established. This section focuses on different types of outputs that can be dynamically updated based on user inputs, including plots, text, HTML content, and tables.
+
+### Plot
+
+**Plots** in Shiny are dynamic visualizations that react to user inputs. You can render plots using base R graphics, `ggplot2`, or any other plotting library in R.
+
+Example to render a `ggplot2` plot:
+```{r}
+#| eval: false
+output$plotOutput <- renderPlot({
+  ggplot(mtcars, aes(x = mpg, y = wt)) + geom_point()
+})
+```
+In the UI, you would use `plotOutput("plotOutput")` to display this plot.
+
+### Text
+
+**Text outputs** allow you to display reactive text in the app, which can include summaries, computations, or any textual content that changes in response to user actions.
+
+Example to render reactive text:
+```{r}
+#| eval: false
+output$textOutput <- renderText({
+  paste("The selected number is", input$numberInput)
+})
+```
+Display this in the UI with `textOutput("textOutput")`.
+
+### HTML Text
+
+**HTML Text** outputs enable the incorporation of HTML content within your Shiny app, allowing for more customized and rich text presentations.
+
+Example to render HTML content:
+```{r}
+#| eval: false
+output$htmlOutput <- renderUI({
+  HTML("<h1>Hello, Shiny!</h1>")
+})
+```
+This can be displayed using `uiOutput("htmlOutput")` in the UI.
+
+### Table (DT)
+
+The **DT** package, a wrapper around the JavaScript library 'DataTables', provides an interactive table widget. It's useful for displaying data frames or matrices in a searchable, sortable, and paginated table.
+
+To use DT in your Shiny app, you first need to install it:
+```{r}
+#| eval: false
+install.packages("DT")
+```
+
+Example to render an interactive table using DT:
+```{r}
+#| eval: false
+library(DT)
+
+output$tableOutput <- renderDT({
+  datatable(data, options = list(pageLength = 5))
+})
+```
+In the UI, `DTOutput("tableOutput")` is used to display the table.
+
+These server-side components of Shiny play a crucial role in creating interactive and dynamic web applications. By processing user inputs and rendering outputs like plots, text, HTML content, and interactive tables, Shiny apps can offer a rich and responsive user experience.
+
+
+## Bringing the UI and Server together
+
+The `shinyApp` function is a critical component of the R Shiny package, acting as the bridge that brings together the user interface (UI) and the server logic to launch an interactive web application. Essentially, it encapsulates the entire Shiny application, defining how the app should be constructed and behave based on the specifications provided in the UI and server definitions. The `shinyApp` function takes two primary arguments: `ui`, which defines the layout and elements that the user interacts with, and `server`, which contains the instructions for how the app responds to user inputs, manipulates data, and generates outputs. This function is what you call to run the app, either locally during development or when deploying the app to a server for broader access.
+
+By leveraging the `shinyApp` function, developers can create sophisticated web applications that enable users to interact with data and visualizations dynamically. For instance, a Shiny app could allow users to filter datasets, adjust parameters for statistical models, or even upload their own data for analysis—all within a web browser, without the need for direct coding by the end-user. This makes `shinyApp` an incredibly powerful tool for data scientists, educators, and businesses to disseminate data-driven insights, facilitate exploratory data analysis, and build interactive tools for a wide range of applications. Whether for educational purposes, research, or commercial products, `shinyApp` serves as the foundation for developing applications that bridge the gap between complex data analyses and user-friendly interfaces.
+
+
+## All Together
+
+Creating and running an R Shiny app is an exciting way to make your data analyses interactive. Below are step-by-step instructions to create a basic Shiny app that visualizes the Old Faithful Geyser data (`faithful` dataset in R), showcasing components like plots, text outputs, and interactive widgets, similar to the examples we discussed.
+
+### Step 1: Install and Load Shiny Package
+
+First, ensure you have the `shiny` package installed and loaded. If you haven't installed it yet, you can do so by running:
+
+```{r}
+#| eval: false
+install.packages("shiny")
+```
+
+To create a new Shiny Web Application in RStudio, follow these enhanced instructions for a smoother development experience:
+
+1. **Initiate New Project**: Start by locating the green plus button at the top of the RStudio interface, near the other project management icons. This button is designed to create new files, projects, and more within RStudio.
+
+2. **Select Shiny Web Application**: After clicking the green plus button, a dropdown menu will appear with various options for new files and projects. From this menu, select "Shiny Web Application" to begin the setup process for your new app.
+
+3. **Define Application Details**: Upon selection, a dialog window will open asking for specifics about your new Shiny app. Here, you'll need to:
+   - **Specify the Directory Name**: Enter a meaningful name for your application. This name will also be used for the folder that contains your app's files.
+   - **Choose the Application's Location**: Navigate to where you want your application to reside on your computer. This could be within a specific project directory or a general workspace area, depending on how you organize your files.
+
+4. **Create the Application**: After filling in the directory name and location, click the "Create" button. RStudio will then generate a new folder containing the essential files for a Shiny app. Among these files, you'll find `app.R`, which is the main file where your UI and server logic will reside.
+
+5. **Explore the Template Code**: RStudio provides a basic template within `app.R` to help kickstart your app development. This template includes a simple UI definition with a fluid page layout and a server function that demonstrates how to render a plot based on user input. It's structured to show the separation between UI elements and server-side logic, providing a clear example of how a Shiny app functions.
+
+By following these instructions, you set up a structured environment for developing a Shiny Web Application. The provided template code in `app.R` is an excellent starting point for understanding the anatomy of a Shiny app and serves as a foundation for further customization and development. Explore the template, experiment with adding or modifying UI components and server logic, and begin bringing your data to life in interactive web applications.
+
+### Step 2: Define UI
+
+The user interface (UI) defines how your app will look. For the Old Faithful Geyser data, we'll create a simple UI with a slider to control the number of bins in a histogram:
+
+```{r}
+#| eval: false
+ui <- fluidPage(
+
+    # Application title
+    titlePanel("Old Faithful Geyser Data"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("distPlot")
+        )
+    )
+)
+
+```
+
+### Step 3: Define Server Logic
+
+The server function contains the instructions to build the plot based on the UI input and display text showing the current number of bins:
+
+```{r}
+#| eval: false
+server <- function(input, output) {
+
+    output$distPlot <- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    <- faithful[, 2]
+        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = 'darkgray', border = 'white',
+             xlab = 'Waiting time to next eruption (in mins)',
+             main = 'Histogram of waiting times')
+    })
+}
+
+```
+
+### Step 4: Run the App
+
+Finally, use the `shinyApp` function to run your app:
+
+```{r}
+#| eval: false
+shinyApp(ui = ui, server = server)
+```
+
+This command will start the Shiny app. By default, it will open in your default web browser. You'll see a slider on the left side (sidebar panel) that you can adjust to change the number of bins in the histogram displayed on the right side (main panel). Below the histogram, there's a text output displaying the current number of bins, demonstrating how user inputs can dynamically change the output.
+
+### Noticing Components
+
+In this app:
+- **UI Components**: The `fluidPage`, `titlePanel`, `sidebarLayout`, `sidebarPanel`, and `mainPanel` functions define the app's layout. The `sliderInput` widget allows user interaction.
+- **Server Logic**: The `renderPlot` and `renderText` functions in the server logic react to changes in the UI, updating the histogram and text based on the slider input.
+- **Running the App**: The `shinyApp` function ties the UI and server components together and launches the app.
+
+Creating this sample app provides hands-on experience with the core components of Shiny, illustrating the process of making data interactive and visual. Feel free to modify the app and experiment with adding more widgets or outputs to deepen your understanding of Shiny's capabilities.
+
+
+
+## Explore Shiny Examples
+
+To explore the dynamic capabilities of Shiny, let's create three mini examples using the `mtcars` dataset. Each example demonstrates a different aspect of Shiny: rendering plots, displaying text, and showcasing data with DT tables. Try creating these apps yourself to get hands-on experience with Shiny.
+
+### 1. Shiny App for Plotting
+
+This example creates a simple Shiny app that lets the user select a variable from the `mtcars` dataset to visualize its distribution in a histogram.
+
+```{r}
+#| eval: false
+library(shiny)
+library(ggplot2)
+
+ui <- fluidPage(
+  selectInput("var", "Choose a variable", choices = names(mtcars)),
+  plotOutput("histPlot")
+)
+
+server <- function(input, output) {
+  output$histPlot <- renderPlot({
+    ggplot(mtcars, aes_string(x = input$var)) + 
+      geom_histogram(binwidth = 1) + 
+      theme_minimal()
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+### 2. Shiny App for Displaying Text
+
+This example shows how to display the mean of a selected variable from the `mtcars` dataset.
+
+```{r}
+#| eval: false
+library(shiny)
+
+ui <- fluidPage(
+  selectInput("var", "Choose a variable", choices = names(mtcars)),
+  textOutput("meanText")
+)
+
+server <- function(input, output) {
+  output$meanText <- renderText({
+    meanVar <- mean(mtcars[[input$var]], na.rm = TRUE)
+    paste("The mean of", input$var, "is:", meanVar)
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+### 3. Shiny App with DT Table
+
+This example demonstrates how to display the `mtcars` dataset in an interactive table using the `DT` package.
+
+```{r}
+#| eval: false
+library(shiny)
+library(DT)
+
+ui <- fluidPage(
+  DTOutput("dataTable")
+)
+
+server <- function(input, output) {
+  output$dataTable <- renderDT({
+    datatable(mtcars, options = list(pageLength = 5))
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+Each of these examples highlights a different feature of Shiny, from visualizing data with plots, summarizing data with dynamic text, to displaying datasets with interactive tables. To get the most out of these examples, create a new Shiny app for each and experiment by running them on your machine. This hands-on practice will deepen your understanding of how Shiny works and how you can leverage it to build your own interactive web applications.

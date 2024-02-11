@@ -280,6 +280,20 @@
     "text": "Check-ins\nThere are three check-ins for this week:\n\nCheck-in 4.1: Functions from forcats\nCheck-in 4.2: Practice with Pivoting and Joins"
   },
   {
+    "objectID": "04-data-joins-and-transformations.html#factors-with-forcats",
+    "href": "04-data-joins-and-transformations.html#factors-with-forcats",
+    "title": "\n4  Data Joins and Transformations\n",
+    "section": "\n4.1 Factors with forcats\n",
+    "text": "4.1 Factors with forcats\n\nWe have been floating around the idea of factor data types. In this section, we will formally define factors and why they are needed for data visualization and analysis. We will then learn useful functions for working with factors in our data cleaning steps.\n\n\n\nIn short, factors are categorical variables with a fixed number of values (think a set number of groups). One of the main features that set factors apart from groups is that you can reorder the groups to be non-alphabetical. In this section we will be using the forcats package (part of the tidyverse!) to create and manipulate factor variables.\n\n(Required) Go read about factors in r4ds."
+  },
+  {
+    "objectID": "04-data-joins-and-transformations.html#checkin4-1",
+    "href": "04-data-joins-and-transformations.html#checkin4-1",
+    "title": "\n4  Data Joins and Transformations\n",
+    "section": "Check-in 4.1: Functions from forcats\n",
+    "text": "Check-in 4.1: Functions from forcats\n\nAnswer the following questions in the Canvas Quiz.\n1. Which of the following tasks can fct_recode() accomplish?\n\nchanges the values of the factor levels\nreorders the levels of a factor\nremove levels of a factor you don’t want\ncollapse levels of a factor into a new level\n\n2. Which of the following tasks can fct_relevel() accomplish?\n\nreorders the levels of a factor\nchanges the values of the factor levels\nremove levels of a factor you don’t want\ncollapse levels of a factor into a new level\n\n3. What is the main difference between fct_collapse() and fct_recode()?\n\n\nfct_recode() uses strings to create factor levels\n\nfct_recode() uses groups to create factor levels\n\nfct_recode() cannot create an “Other” group\n\n4. What ordering do you get with fct_reorder()?\n\nlargest to smallest based on another variable\norder of appearance\nlargest to smallest based on counts\nalphabetical order\n\n5. What ordering do you get with fct_inorder()?\n\norder of appearance\nalphabetical order\nlargest to smallest based on counts\nlargest to smallest based on another variable"
+  },
+  {
     "objectID": "04-data-joins-and-transformations.html#identifying-the-problem-messy-data",
     "href": "04-data-joins-and-transformations.html#identifying-the-problem-messy-data",
     "title": "\n4  Data Joins and Transformations\n",
@@ -663,19 +677,5 @@
     "title": "\n10  Predictive Checks\n",
     "section": "References",
     "text": "References\n\n\n\n\nGelman, Andrew. 2014. “Model Checking.” In Bayesian Data Analysis. CRC Press."
-  },
-  {
-    "objectID": "04-data-joins-and-transformations.html#factors-with-forcats",
-    "href": "04-data-joins-and-transformations.html#factors-with-forcats",
-    "title": "\n4  Data Joins and Transformations\n",
-    "section": "\n4.1 Factors with forcats\n",
-    "text": "4.1 Factors with forcats\n\nWe have been floating around the idea of factor data types. In this section, we will formally define factors and why they are needed for data visualization and analysis. We will then learn useful functions for working with factors in our data cleaning steps.\n\n\n\nIn short, factors are categorical variables with a fixed number of values (think a set number of groups). One of the main features that set factors apart from groups is that you can reorder the groups to be non-alphabetical. In this section we will be using the forcats package (part of the tidyverse!) to create and manipulate factor variables.\n\n(Required) Go read about factors in r4ds."
-  },
-  {
-    "objectID": "04-data-joins-and-transformations.html#checkin4-1",
-    "href": "04-data-joins-and-transformations.html#checkin4-1",
-    "title": "\n4  Data Joins and Transformations\n",
-    "section": "Check-in 4.1: Functions from forcats\n",
-    "text": "Check-in 4.1: Functions from forcats\n\nAnswer the following questions in the Canvas Quiz.\n1. Which of the following tasks can fct_recode() accomplish?\n\nchanges the values of the factor levels\nreorders the levels of a factor\nremove levels of a factor you don’t want\ncollapse levels of a factor into a new level\n\n2. Which of the following tasks can fct_relevel() accomplish?\n\nreorders the levels of a factor\nchanges the values of the factor levels\nremove levels of a factor you don’t want\ncollapse levels of a factor into a new level\n\n3. What is the main difference between fct_collapse() and fct_recode()?\n\n\nfct_recode() uses strings to create factor levels\n\nfct_recode() uses groups to create factor levels\n\nfct_recode() cannot create an “Other” group\n\n4. What ordering do you get with fct_reorder()?\n\nlargest to smallest based on another variable\norder of appearance\nlargest to smallest based on counts\nalphabetical order\n\n5. What ordering do you get with fct_inorder()?\n\norder of appearance\nalphabetical order\nlargest to smallest based on counts\nlargest to smallest based on another variable"
   }
 ]
