@@ -1,0 +1,214 @@
+---
+execute:
+  freeze: auto  # re-render only when source changes
+  warning: false
+  message: false
+editor: source
+---
+
+```{r echo=FALSE}
+bytes <- file.size("06-shiny.qmd")
+words <- bytes/10
+minutes <- words/200
+```
+
+# Shiny (a web application)
+
+```{r fa-setup, include=FALSE}
+library(quarto)
+library(fontawesome)
+library(ggplot2)
+fa_html_dependency()
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+# htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+```
+
+`r fa("book-open")` Reading: `r ceiling(minutes)` minute(s) at 200 WPM
+
+`r fa("video")` Videos: 0 minute(s)
+
+## Objectives
+
++ Develop the ability to create responsive user interfaces using fluid, sidebar, main, and conditional panels to enhance user interaction and app functionality.
++ Acquire skills to implement and customize a range of input widgets, including sliders, text fields, and checkboxes, to capture user preferences and inputs effectively.
++ Learn to construct server-side logic that processes user inputs and renders outputs like plots, text, HTML, and tables dynamically.
++ Combine UI elements with server-side scripts to build cohesive and interactive Shiny applications that perform real-time data analysis and visualization.
+
+
+
+<br>
+
+::: check-in
+## Check-ins {#ch6-checkins .unnumbered}
+
+There are two check-ins for this week:
+
++ [Check-in 6.1: Shiny with a plot](#checkin6-1)
++ [Check-in 6.2: Shiny with a table](#checkin6-2)
+
+:::
+
+## What is Shiny?
+
+Shiny is an R package that makes it incredibly straightforward to build interactive web applications directly from R. This powerful framework allows data scientists and statisticians to turn their analyses into engaging and user-friendly web apps without requiring extensive knowledge of HTML, CSS, or JavaScript. With Shiny, you can easily create interactive visualizations, data summaries, and complex reports that users can interact with by changing parameters, filtering data, or even uploading their own datasets.
+
+The elegance of Shiny lies in its simplicity and the seamless integration of the analytical power of R with the interactivity of modern web pages. It operates on a server-client model, where the server-side (written in R) handles the computational tasks, and the user interface (UI) is what the end-user interacts with in their web browser. Shiny applications can range from simple data visualizations to comprehensive data dashboards, incorporating real-time analytics that respond to user input, making data exploration both accessible and insightful. Whether for academic research, business intelligence, or creating educational tools, Shiny has become an indispensable tool in the repertoire of anyone looking to bring their data to life.
+
+
+### User Input (UI)
+
+A User Interface (UI) is the point of human-computer interaction and communication in a device, application, or website. It's the space where interactions between humans and machines occur. The goal of a UI is to make the user's experience as simple and efficient as possible, in terms of accomplishing user goals—what is often called user-centered design.
+
+UI design focuses on anticipating what users might need to do and ensuring that the interface has elements that are easy to access, understand, and use to facilitate those actions. UI brings together concepts from interaction design, visual design, and information architecture. It includes everything from screens, pages, and visual elements like buttons and icons, to design aspects such as typography and color schemes, to the behavior of moving elements, and responsiveness to user input. A well-designed UI not only looks appealing but also creates a seamless, intuitive experience that allows users to complete tasks effectively. In software applications, UI design is typically a combination of graphical (GUI), voice-controlled (VUI), or gesture-based interfaces, depending on the devices and context of use.
+
+#### Elements of traditional Shiny [Image]
+
+**fluidPage:** The `fluidPage` function in Shiny creates a fluid and responsive web page layout that automatically adjusts the sizing of elements to fit the display screen. It's designed to be used as the UI definition for a Shiny app, enabling developers to arrange UI components flexibly across different devices and screen sizes. The fluidPage layout ensures that the content will reflow to optimally use the available space, which is particularly important for providing a consistent user experience on mobile phones, tablets, and desktop computers. This adaptability is key to modern web applications where users may switch between various devices throughout their interaction with the app.
+
+**sidebarLayout:** The `sidebarLayout` is a specialized layout within Shiny that provides a two-panel display: a main panel for main content such as plots or tables, and a sidebar panel for input controls like sliders and buttons. This layout is crucial for creating dashboards and other applications where it is necessary to keep controls accessible while still providing ample space for displaying results. The sidebar typically occupies a fixed portion of the screen, while the main panel adjusts dynamically, ensuring that the user's attention is drawn to the primary content area.
+
+**sidebarPanel:** The `sidebarPanel` function in Shiny generates a column on the side of the app that houses input widgets and controls. It's the go-to solution when you want to present options or actions that the user can take to manipulate the data output displayed in the main panel. By grouping these controls into a sidebar, developers can create an organized and intuitive interface that allows users to easily interact with the app, input data, and adjust parameters without overwhelming the main content display.
+
+**mainPanel:** The `mainPanel` function is an essential part of Shiny's layout system, serving as the container for the primary output of the application. This is where you would place your plots, data tables, and other visual outputs. The mainPanel takes up the bulk of the space in a standard Shiny layout, allowing for a clear and focused presentation of results or information. Its size and layout can be influenced by the elements in the sidebarPanel, making it a dynamic space that can be tailored to fit the needs of various applications and visual content.
+
+Example of all 4 functions within a Shiny:
+
+```{r}
+#| eval: false
+
+
+library(shiny)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+
+    # Application title
+    titlePanel("Old Faithful Geyser Data"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("distPlot")
+        )
+    )
+)
+```
+
+
+
+#### Widgets
+
+Widgets in Shiny are the interactive elements that capture user inputs, allowing them to manipulate and engage with the application in real time. These widgets can range from simple text boxes, sliders, and buttons to more complex date pickers and file upload controls. They are integral to the interactivity of Shiny apps, empowering users to filter data, set parameters for analysis, or even upload their own datasets for visualization. In the Shiny ecosystem, widgets are bound to reactive elements in the server code, meaning that any user interaction can trigger updates to the outputs, creating a dynamic experience. Widgets are designed to be intuitive to use, requiring minimal effort from the user to control the display and behavior of the application. In the following section, we'll dive deeper into the specifics of these widgets, exploring how they can be customized and combined to build sophisticated and user-friendly interfaces.
+
+#### Conditional Panels [GIF]
+
+Conditional panels in Shiny are dynamic UI elements that display content based on specific conditions or user inputs. This functionality is particularly useful when you want to present users with options or information that's only relevant if certain criteria are met, keeping the interface clutter-free and more user-friendly.
+
+For example, you might have a Shiny application where users need to choose between different types of data visualizations. A conditional panel could be used to show additional configuration options that are only relevant for the selected visualization type. Here's a small example:
+
+```{r}
+#| eval: false
+
+ui <- fluidPage(
+  selectInput("vizType", "Choose a visualization:",
+              choices = c("Histogram", "Scatterplot", "Boxplot")),
+  conditionalPanel(
+    condition = "input.vizType == 'Histogram'",
+    sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
+  ),
+  plotOutput("plot")
+)
+```
+
+In this code, `selectInput` creates a dropdown menu for choosing a visualization type. The `conditionalPanel` then checks the user's selection through the `condition` argument. If the user selects "Histogram," a slider input for choosing the number of bins appears. The `plotOutput` will display the plot, which reacts to the user's selections. The slider for bin number is only shown when it's relevant, keeping the UI streamlined.
+
+
+
+
+## Widgets
+
+In Shiny, widgets are the building blocks for creating interactive user interfaces. They provide the means for users to input data and adjust parameters within an application. Each widget captures a specific type of input, from simple text and numbers to complex date ranges and file selections. The user's selections are then made available to the server for processing and can trigger updates to the output displayed. Widgets are key to creating a responsive and engaging user experience, allowing for real-time interaction with the underlying data and visualizations.
+
+### Number Inputs (Sliders [one, two], NumericInput)
+
+**Sliders**: Sliders allow users to select a value from a range by moving a slider control. They are ideal for adjusting a parameter within a continuous or discrete range.
+
+Syntax for a single-value slider:
+
+```{r}
+sliderInput(inputId = "id", label = "Sliders Label 1", min = 1, max = 100, value = 50)
+```
+
+Syntax for a range slider (selecting two values):
+```{r}
+sliderInput(inputId ="id", label = "Sliders Label2", min = 1, max = 100, value = c(25, 75))
+```
+
+**NumericInput**: This widget lets users input a number by typing into a field, with optional up/down arrows for incrementing the value.
+
+Syntax:
+```{r}
+numericInput(inputId ="id", label = "NumericInput Label", value = 10, min = 1, max = 100)
+```
+
+### Radio Buttons, Dropdowns, Text Input
+
+**Radio Buttons**: Radio buttons present a set of options from which the user can select only one. They are useful for mutually exclusive choices.
+
+Syntax:
+```{r}
+radioButtons(inputId ="id", label = "Radio Buttons Label", choices = list("Option 1" = 1, "Option 2" = 2))
+```
+
+**Dropdown Menus**: Dropdown menus, also known as select inputs, let users choose an option from a dropdown list.
+
+Syntax:
+```{r}
+selectInput(inputId ="id", label = "Dropdown Menus Label", choices = c("Option 1", "Option 2"))
+```
+
+**Text Input**: Text input fields allow users to enter free-form text.
+
+Syntax:
+```{r}
+textInput(inputId ="id", label = "Text Input Label", value = "Enter text here")
+```
+
+### Dates, Files, Checkboxes
+
+**Date Input**: Date inputs enable users to select a date from a pop-up calendar, useful for filtering data by date.
+
+Syntax:
+```{r}
+dateInput(inputId ="id", label = "Date Input Label", value = Sys.Date())
+```
+
+**File Input**: File input widgets provide a way for users to upload files into the Shiny application, which can then be processed by the server.
+
+Syntax:
+```{r}
+fileInput(inputId ="id", label = "File Input Label")
+```
+
+**Checkboxes**: A checkbox allows users to toggle an option on or off, often used for boolean choices.
+
+Syntax:
+```{r}
+checkboxInput(inputId ="id", label = "Checkboxes Label", value = TRUE)
+```
+
+**Custom Widgets**: Beyond the standard widgets, Shiny also supports custom widgets through the htmlwidgets package. These allow for the integration of custom web components and more sophisticated user inputs. You can explore a variety of htmlwidgets and their uses at [htmlwidgets.org](https://www.htmlwidgets.org/).
+
+
+##
