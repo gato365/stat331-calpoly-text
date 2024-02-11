@@ -479,3 +479,113 @@ shinyApp(ui = ui, server = server)
 ```
 
 Each of these examples highlights a different feature of Shiny, from visualizing data with plots, summarizing data with dynamic text, to displaying datasets with interactive tables. To get the most out of these examples, create a new Shiny app for each and experiment by running them on your machine. This hands-on practice will deepen your understanding of how Shiny works and how you can leverage it to build your own interactive web applications.
+
+
+::: check-in
+## Check-in 6.1: Understanding the UI {#checkin6-1 .unnumbered}
+**1. **
+
+```{r}
+#| eval: false
+
+
+ui <- _______(
+
+    # Application title
+    titlePanel("Old Faithful Geyser Data"),
+
+    # Sidebar with a slider input for number of bins 
+    _______(
+        _______(
+            _______"bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)
+        ),
+
+        # Show a plot of the generated distribution
+        _______(
+           plotOutput("distPlot")
+        )
+    )
+)
+```
+
+
+**2. What function is used to create a display that automatically adjusts to the dimensions of your user’s browser window? **
+
+
+- fixedPage()
+- fluidPage()
+- sliderInput()
+- mainPanel()
+- renderUI()
+
+**3. What function is used to create a widget that allows the user to select a range of values using a slider bar?**
+
+
+- sliderInput()
+- rangeInput()
+- dateRangeInput()
+- numericInput()
+- selectInput()
+
+
+:::
+
+
+::: check-in
+## Check-in 6.2: Working with the Server {#checkin6-2 .unnumbered}
+**1. **
+```{r}
+#| eval: false
+
+# Define server logic required to draw a histogram
+server <- function(______, ______) {
+
+    output$distPlot <- ______({
+        # generate bins based on input$bins from ui.R
+        x    <- faithful[, 2]
+        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = 'darkgray', border = 'white',
+             xlab = 'Waiting time to next eruption (in mins)',
+             main = 'Histogram of waiting times')
+    })
+}
+
+# Run the application 
+______(ui = ui, server = server)
+```
+
+
+**2. What is the purpose of the server function in a Shiny app?**
+
+- To provide the server-side logic and output generation
+- To define the user interface elements and layout
+- To create a Shiny app object from the UI and server components
+- To run the Shiny app on a web server
+
+
+**3. What are the two parameters that the server function must take?**
+
+- ui and server
+- input and output
+- app and shiny
+- data and plot
+
+**4. What is the difference between output and render functions in the server function?**
+
+- Output functions are used to define the output types, while render functions are used to generate the output values
+- Output functions are used to create the results, while render functions are used to display the results
+- Output functions are used to display the results, while render functions are used to create the results
+- Output functions are used to generate the output values, while render functions are used to define the output types
+
+:::
+
+
+PA 6: Coming Soon
+
+Lab 6: Coming Soon
